@@ -22,7 +22,11 @@ $(document).ready(function(){
 		areaya = $(this).val();
 		f_ajax($(this).val(),"ajax/dload_doc.php","#doc_div div","0");
 		show_area(areaya,"#doc_div span");
+<<<<<<< HEAD
 		array_numb=[0];
+=======
+		array_numb=["0"];
+>>>>>>> 130510f3927dfa86a848824eb300a3d41502740d
 		folderURL = "";
 	});
 
@@ -63,8 +67,13 @@ function show_area(area,disp){
 }
 
 function remove_upload(){
+<<<<<<< HEAD
 	$("#filelist tr").remove();
 	f_ajax($("#d-sel").val(), "ajax/dload_doc.php","#doc_div > div",array_numb[array_numb.length-1]);
+=======
+	f_ajax($("#d-sel").val(), "ajax/dload_doc.php","#doc_div > div",(array_numb.length-1));
+	$("#filelist tr").remove();
+>>>>>>> 130510f3927dfa86a848824eb300a3d41502740d
 }
 
 function f_ajax(area,url,resp,dir){
@@ -460,13 +469,23 @@ $(document).on('click','.n_li',function(){
 });
 
 function allow_download(nid){
+<<<<<<< HEAD
 	var data = "type=AD&nid="+nid;
 	$.ajax({
 		data:data,
+=======
+	var d = "type=AD&nid="+nid;
+	$.ajax({
+		data:d,
+>>>>>>> 130510f3927dfa86a848824eb300a3d41502740d
 		url:"ajax/spec_functions.php"
 	}).done(function(){
 		alert_message("The document is now allowed for download.");
 		$("#allow_download").modal('hide');
+<<<<<<< HEAD
+=======
+
+>>>>>>> 130510f3927dfa86a848824eb300a3d41502740d
 		// Fetch the count number of notifications after allowing or dis allowing user.
 		var data = "type=notification_count";
 		$.ajax({

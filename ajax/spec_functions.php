@@ -13,6 +13,10 @@
 	}
 
 	if($_GET['type']=="notify"){
+<<<<<<< HEAD
+=======
+
+>>>>>>> 130510f3927dfa86a848824eb300a3d41502740d
 		$docu->notify_admin($_GET['file_id'], $user_id);
 	}
 
@@ -22,7 +26,13 @@
 	}
 
 	if ($_GET['type']=="AD") {
+<<<<<<< HEAD
 		$docu->allow_download($_GET['nid']);
+=======
+		$nid = $_GET['nid'];
+		$docu->allow_download($nid);
+		echo "something";
+>>>>>>> 130510f3927dfa86a848824eb300a3d41502740d
 	}
 
 	if ($_GET['type']=="ADC"){

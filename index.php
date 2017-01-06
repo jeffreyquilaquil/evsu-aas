@@ -22,8 +22,11 @@ include_once "db_conn.php";
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 	<link rel="stylesheet" type="text/css" href="css/font-awesome/css/font-awesome.min.css">
+<<<<<<< HEAD
 	<link rel="stylesheet" href="css/footer-distributed-with-address-and-phones.css">
 
+=======
+>>>>>>> 130510f3927dfa86a848824eb300a3d41502740d
 
 	<!-- External Script -->
 	<script type="text/javascript" src='js/jquery.js'></script>
@@ -47,8 +50,14 @@ include_once "db_conn.php";
 	<body>
 		<div id="menu">
 			<div>
+<<<<<<< HEAD
 				<div class="pull-left" style='color:white;font-size:25px;margin-top:10px;margin-left:-20px;font-family:Matura MT Script Capitals;text-shadow: 2px 2px 4px #000000;'><img src="images-slider/EVSULogo.png" style="height:30px;width:30px;">
 					EVSU-CC Quality Assurance Archiving System
+=======
+				<div class="pull-left" style='color:white;font-size:17px;margin-top:0px;mmargin-left:-20px;'>
+					<img src="css/evsu-logo.png">
+					EVSU-CC Quality Assurance Archiiving System
+>>>>>>> 130510f3927dfa86a848824eb300a3d41502740d
 				</div>
 				<div class="pull-right">
 					<ul>
@@ -171,6 +180,7 @@ include_once "db_conn.php";
 				</div>
 			</div>
 		</div>
+<<<<<<< HEAD
 		
 			<!-- The content of the page would go here.
 					footer starts here
@@ -251,6 +261,15 @@ include_once "db_conn.php";
 		</footer>
 					<!-- End of Footer here -->
 
+=======
+		<div id="footer">
+			<div>
+				<div id="footer" class="pull-left" style="color:white;font-size:18px;margin-bottom:10px;">
+					<span>Courtesy of Sabay, Ivy et. al.</span>
+				</div>
+			</div>
+		</div>
+>>>>>>> 130510f3927dfa86a848824eb300a3d41502740d
 	</body>
 </html>
 
