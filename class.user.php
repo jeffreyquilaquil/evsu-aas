@@ -3,7 +3,7 @@
 		public $db;
 		public function __construct(){
 			$this->db = new mysqli(db_server,db_username, db_password, db_database);
-			
+
 			if(mysqli_connect_errno()){
 				echo "
 					<script type='text/javascript'>
@@ -46,7 +46,7 @@
 			$row=$query->num_rows;
 
 			if ($row==1) {
-				
+
 				$_SESSION['login']=true;
 				$_SESSION['id']=$user['user_id'];
 				$_SESSION['type']=$user['user_type'];
@@ -68,11 +68,7 @@
 				$admin_priv = "
 					<td id='acct_nav' class='navs' onclick='display_div(3)'>Accounts</td>
 					<td id='arch_nav' class='navs' onclick='display_div(4)'>Archives</td>
-				";
-			}else{
-				$admin_priv="
-					<td class='w_gmit'></td>
-					<td class='w_gmit'></td>
+					<td id='area_nav' class='navs' onclick='display_div(5)' style='width:10%;'>Areas</td>
 				";
 			}
 
@@ -84,7 +80,7 @@
 						$admin_priv
 					</tr>
 				</table>
-			";	
+			";
 
 		}
 
@@ -152,12 +148,12 @@
 			$sel_area_sql="SELECT * FROM tbl_areas";
 			$sel_area=$this->db->query($sel_area_sql);
 
+			$area_array=[];
 			while ($result=$sel_area->fetch_assoc()) {
 				extract($result);
-				echo "
-					<option value='{$area_id}'>$area_name</option>
-				";
+				array_push($area_array,['id'=>$area_id,'name'=>$area_name]);
 			}
+			return $area_array;
 		}
 
 		public function get_questions(){

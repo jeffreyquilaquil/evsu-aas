@@ -68,7 +68,7 @@
 								}else{
 									echo "
 										<option value='2'>Chairman</option>
-										<option value='1'>Administrator</option> 
+										<option value='1'>Administrator</option>
 									";
 								}
 							?>
@@ -76,8 +76,12 @@
 					</td>
 					<td>
 						<select class='form-control' id='ua' <?php echo ($user_type==1)?'disabled':'';?>>
-							<option value="<?php echo $area?>"><?php echo $area_name?></option>
-							<?php $user->get_areas()?>				
+							<?php
+								foreach($user->get_areas() as $value){
+									$selected = ($value['id']==$area ? 'selected' : '');
+									echo '<option value="'.$value['id'].'" '.$selected.' >'.$value['name'].'</option>';
+								}
+							?>
 						</select>
 					</td>
 					<td>

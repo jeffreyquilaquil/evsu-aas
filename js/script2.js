@@ -77,13 +77,7 @@ function f_ajax(area,url,resp,dir){
 		$(resp).html(r);
 	});
 }
-
-function d_load(area){
-	// var d="a="+area;
-	// $.ajax({
-
-	// });
-}
+alert("string");
 function display_div(div){
 		$("#search_div").slideUp();
 		$(".navs").removeClass('active');
@@ -125,6 +119,16 @@ function display_div(div){
 			});
 		}else{
 			$("#bckup_div").slideUp();
+		}
+
+		if(div==5){
+			$("#area_nav").addClass('active');
+			$("#area_div").slideDown(function(){
+				f_ajax("1", "ajax/area_list.php","#area_div div","0");
+
+			});
+		}else{
+			$("#area_div").slideUp();
 		}
 
 		$(".active").css('background','rgb(31, 109, 152)');
@@ -540,7 +544,7 @@ function allow_download(nid){
 				$("#search_div div").html(r);
 			});
 
-			$("#view_div, #doc_div, #acct_div ,#bckup_div").slideUp();
+			$("#view_div, #doc_div, #acct_div ,#bckup_div, #area_div").slideUp();
 			$("#search_div").slideDown();
 
 	});

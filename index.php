@@ -165,7 +165,13 @@ include_once "db_conn.php";
 				<h3><span>Archives</span></h3>
 				<button class="btn btn-info  btn_shsetBackup">Setup</button>
 				<button class="btn btn-info  btn_doBackup">Backup Now</button>
-				<div>
+			<div>
+
+			<!-- Areas -->
+			<div id='area_div'>
+				<h3><span>Areas</span></h3>
+				<div></div>
+			</div>
 
 				</div>
 			</div>

@@ -28,7 +28,7 @@ body{
 #menu{
 	height: 7.1%;
 	padding-left:15px;
-	padding-right:15px;  
+	padding-right:15px;
 	background: rgb(48,144 ,195);
 	border-bottom: 4px solid rgb(2,50,72);
 	position: fixed;
@@ -100,7 +100,7 @@ body{
 	margin-left: -140px;
 	border-radius:9px;
 	border: 5px solid rgb(32, 95, 128);
-	padding: 5px; 
+	padding: 5px;
 }
 #prof_div{
 	display: none;
@@ -110,7 +110,7 @@ body{
 	margin-left: -80px;
 	height: 200px;
 	width: 180px;
-	border-radius:9px; 
+	border-radius:9px;
 	border: 5px solid rgb(32,95,128);
 	padding: 5px;
 }
@@ -168,7 +168,7 @@ body{
 	border-left: 1px solid rgb(2,50,72);
 	border-right: 1px solid rgb(2,50,72);
 }
-#view_nav, #doc_nav, #acct_nav, #arch_nav{
+#view_nav, #doc_nav, #acct_nav, #arch_nav, #area_nav{
 	width: 10%;
 	cursor:pointer;
 }
@@ -185,7 +185,7 @@ body{
 	cursor:pointer;
 }
 /*workarea*/
-#view_div, #doc_div, #acct_div, #bckup_div{
+#view_div, #doc_div, #acct_div, #bckup_div, #area_div{
 	height: 540px;
 	background: rgb(31, 109, 152);
 	margin-left: 16px;
@@ -193,18 +193,18 @@ body{
 	padding-top: 20px;
 }
 
-#doc_div, #acct_div, #bckup_div{
+#doc_div, #acct_div, #bckup_div, #area_div{
 	display: none;
 }
-#view_div div, #doc_div div, #acct_div div, #bckup_div div{
+#view_div div, #doc_div div, #acct_div div, #bckup_div div, #area_div div{
 	margin-left: 7px;
 	margin-right: 7px;
 	background:white;
 	height: 460px;
-	
-	overflow-y:auto; 
+
+	overflow-y:auto;
 }
-#view_div > h3, #doc_div h3, #acct_div h3, #bckup_div h3{
+#view_div > h3, #doc_div h3, #acct_div h3, #bckup_div h3, #area_div h3{
 	margin-top: 0px;
 	margin-left: 25px;
 	color:white;
@@ -228,10 +228,10 @@ body{
 	width: auto;
 	display: none;
 	position: absolute;
-	overflow-y:auto; 
+	overflow-y:auto;
 	background: white;
 	border: 1px solid black;
-	border-radius:5px; 
+	border-radius:5px;
 }
 #acct_div > button{
 	margin-top: -45px;

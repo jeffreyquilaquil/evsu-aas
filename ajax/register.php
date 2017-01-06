@@ -65,7 +65,9 @@ $unames=$user->get_unames();
 					<td style='border:none;'>
 						<select name="area" class="form-control" id='ua'>
 							<?php
-								$user->get_areas();
+								foreach ($user->get_areas() as $value) {
+									echo "<option value='".$value['id']."'>".$value['name']."</option>";
+								}
 							?>
 						</select>
 					</td>
