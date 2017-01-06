@@ -22,6 +22,11 @@ include_once "db_conn.php";
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 	<link rel="stylesheet" type="text/css" href="css/font-awesome/css/font-awesome.min.css">
+<<<<<<< HEAD
+	<link rel="stylesheet" href="css/footer-distributed-with-address-and-phones.css">
+
+=======
+>>>>>>> 130510f3927dfa86a848824eb300a3d41502740d
 
 	<!-- External Script -->
 	<script type="text/javascript" src='js/jquery.js'></script>
@@ -45,9 +50,14 @@ include_once "db_conn.php";
 	<body>
 		<div id="menu">
 			<div>
+<<<<<<< HEAD
+				<div class="pull-left" style='color:white;font-size:25px;margin-top:10px;margin-left:-20px;font-family:Matura MT Script Capitals;text-shadow: 2px 2px 4px #000000;'><img src="images-slider/EVSULogo.png" style="height:30px;width:30px;">
+					EVSU-CC Quality Assurance Archiving System
+=======
 				<div class="pull-left" style='color:white;font-size:17px;margin-top:0px;mmargin-left:-20px;'>
 					<img src="css/evsu-logo.png">
 					EVSU-CC Quality Assurance Archiiving System
+>>>>>>> 130510f3927dfa86a848824eb300a3d41502740d
 				</div>
 				<div class="pull-right">
 					<ul>
@@ -176,6 +186,88 @@ include_once "db_conn.php";
 				</div>
 			</div>
 		</div>
+<<<<<<< HEAD
+		
+			<!-- The content of the page would go here.
+					footer starts here
+			 -->
+
+		<footer class="footer-distributed">
+
+			<div class="footer-left">
+				<div class="pull-left">
+					<img src="css/Banner.png" alt="" style="wdith:150px;height:150px;float:left;margin-left:-80px;">
+				</div>
+				<p class="footer-links">
+					<a href="#">Home</a>
+					·
+					<a href="#">Blog</a>
+					·
+					<a href="#">Pricing</a>
+					·
+					<a href="#">About</a>
+					·
+					<a href="#">Faq</a>
+					·
+					<a href="#">Contact</a>
+				</p>
+
+				<p class="footer-company-name">Evsu-cc Quality Assurance Archiving System &copy; 2016</p>
+			</div>
+
+			<div class="footer-center">
+
+				<div>
+					<i class="fa fa-map-marker"></i>
+					<p><span>Barugohay Norte</span>Carigara, Leyte</p>
+				</div>
+
+				<div>
+					<i class="fa fa-phone"></i>
+					<p>+1 555 123456</p>
+				</div>
+
+				<div>
+					<i class="fa fa-envelope"></i>
+					<p><a href="#">evsucc@support.com</a></p>
+				</div>
+
+				<div>
+					<i class="fa fa-user"></i>
+					<p><span><b>Developed by:</b><br><a href="https://www.facebook.com/jerson.apostol.71">Jerson Apostol</a> &emsp;
+						<a href="#">Karlo Aruta </a>&emsp;
+						<a href="#">Ivy Sabay</a> &emsp;
+						<a href="#"><a href="#">Herbert Burdan</a> &emsp;
+						<a href="#"><a href="#">Rona Darnayla </a>
+						</a></span><br></p>
+						<p><span><img src="css/evsu-logo.png" alt="" style="width:30px;height:30px;">
+							Eastern Visayas State University Carigara Campus <br>All rights reserve &copy; 2016</span></p>
+				</div>
+
+			</div>
+
+			<div class="footer-right">
+
+				<p class="footer-company-about">
+					<span>EVSU-Carigara Campus/PHILOSPHY</span>
+					&emsp;&emsp;EVSU Carigara Campus addresses its academic endeavors towards the development of the socio-economic condition of Region VIII by emphasizing the development of human resources as a necessary input of production and growth. It plays a major role in providing the human resources for industrial agri-business enterprises as well as small, medium and large-scale industries, which are components for regional development.
+				</p>
+
+				<div class="footer-icons">
+
+					<a href="#"><i class="fa fa-facebook"></i></a>
+					<a href="#"><i class="fa fa-twitter"></i></a>
+					<a href="#"><i class="fa fa-linkedin"></i></a>
+					<a href="#"><i class="fa fa-github"></i></a>
+
+				</div>
+
+			</div>
+
+		</footer>
+					<!-- End of Footer here -->
+
+=======
 		<div id="footer">
 			<div>
 				<div id="footer" class="pull-left" style="color:white;font-size:18px;margin-bottom:10px;">
@@ -183,6 +275,7 @@ include_once "db_conn.php";
 				</div>
 			</div>
 		</div>
+>>>>>>> 130510f3927dfa86a848824eb300a3d41502740d
 	</body>
 </html>
 
