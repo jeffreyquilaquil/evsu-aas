@@ -1,0 +1,188 @@
+
+<?php
+include_once 'db_conn.php';
+	if(isset($_POST['login'])){
+		extract($_REQUEST);
+		$user = new user();
+		$result=$user->check_user($uname, $pword);
+	}
+?>
+
+<!doctype HTML>
+<html>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" type="text/css" href="css/font-awesome/css/font-awesome.min.css">	
+	
+	
+	<script type="text/javascript" src='js/jquery.js'></script>
+	<script type="text/javascript" src="js/bootstrap.min.js"></script>
+	<script type="text/javascript" src='js/tendina.min.js'></script>
+	<script type="text/javascript" src='js/validate.js/jquery.validate.js'></script>
+	<script type="text/javascript" src='js/validate.js/additional-methods.js'></script>
+	<script type="text/javascript" src="js/datatable/jquery.dataTables.js"></script>
+
+	<script type="text/javascript" src='js/script.js'></script>
+
+	  <link rel="stylesheet" href="css/style-test.css">
+       <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+
+	<head>
+		<title>Login Page</title>
+	</head>
+	<body style="backround-image:url('images-slider/structured.archiving.jpg')">
+		<div id='menu'>
+			<div>
+					
+				<div class="pull-left" style='color:white;font-size:25px;margin-top:10px;margin-left:-20px;font-family:Matura MT Script Capitals;text-shadow: 2px 2px 4px #000000;'><img src="images-slider/EVSULogo.png" style="height:30px;width:30px;">
+					EVSU-CC Quality Assurance Archiving System
+				</div>
+				<!--HIDE LA ANAI
+				<div class='pull-right'>
+					<form name='frm_login' method='POST' action="">
+						<input class='lg-ip' type="text" placeholder="Username" name="uname" required>
+						<input class='lg-ip' type="password" placeholder="Password" name="pword">
+						<button name='login'>Login</button>
+					</form>
+				</div> -->
+			</div>
+		</div>
+	<!--HIDE LA ANAI
+		<div id='container'>
+				<div id='header' style='background:url("css/header.png") no-repeat center center; margin-top:-30px;'>
+			</div>
+			<div class='row' style='margin-top:-20px;'>
+				<div class='col-lg-7' style='background:rgb(2, 50, 72);height:60%;padding:5px;'>
+					<div id='carousel' class="carousel slide" data-ride="carousel">
+						<div class="carousel-inner" style="color:white">
+							<div class="item active">
+								<img src="images-slider/DataArchiving.png" alt="DataArchiving" style="height:350px;width:100%;">
+								<p><b>Eastern Visayas State University Carigara-Campus | AACUP 2016</b></p>	
+							</div>
+								
+								<div class="item">
+								<img src="images-slider/archiving-banner.png" alt="DataArchive" style="height:350px;width:100%;">
+								<p><b>Eastern Visayas State University Carigara-Campus | AACUP 2016</b></p>	
+							</div>
+
+
+							<div class="item">
+								<img src="images-slider/DataArchive.jpg" alt="DataArchive" style="height:350px;width:100%;">
+								<p><b>Eastern Visayas State University Carigara-Campus | AACUP 2016</b></p>	
+							</div>
+
+							<div class="item">
+								<img src="images-slider/cloudarchive.jpg" alt="cloudarchive" style="height:350px;width:100%;">
+								<p><b>Eastern Visayas State University Carigara-Campus | AACUP 2016</b></p>	
+							</div>
+
+							<div class="item">
+								<img src="images-slider/Folder-Archive.jpg" alt="Folder-Archive" style="height:350px;width:100%;">
+								<p><b>Eastern Visayas State University Carigara-Campus | AACUP 2016</b></p>	
+							</div>
+
+							<div class="item">
+								<img src="images-slider/Webarch-cloud.jpg" alt="Webarch-cloud" style="height:350px;width:100%;">
+								<p><b>Eastern Visayas State University Carigara-Campus | AACUP 2016</b></p>	
+							</div>
+
+							<div class="item">
+								<img src="images-slider/Archive.jpg" alt="Archive" style="height:350px;width:100%;">
+								<p><b>Eastern Visayas State University Carigara-Campus | AACUP 2016</b></p>	
+							</div>
+
+							<div class="item">
+								<img src="images-slider/D-Archiving.jpg" alt="D-Archiving" style="height:350px;width:100%;">
+								<p><b>Eastern Visayas State University Carigara-Campus | AACUP 2016</b></p>	
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+				<div class='col-lg-5' style='height:20px;'>
+					<div>
+						<h4 style="font-family:Findet Nemo;font-size:25px;text-shadow: 2px 2px 4px #000000; ">PHILOSOPHY</h4>
+						<b style="font-family:Agency FB;font-size:17px">&emsp;&emsp;EVSU Carigara Campus addresses its academic endeavors towards the development of the socio-economic condition of Region VIII by emphasizing the development of human resources as a necessary input of production and growth. It plays a major role in providing the human resources for industrial agri-business enterprises as well as small, medium and large-scale industries, which are components for regional development.</b>
+					</div>
+				</div>
+				<div class='col-lg-5' style='height:20px;'>
+					<div style="margin-top:190px;">
+					<h4 style="font-family:Findet Nemo;font-size:25px;text-shadow: 2px 2px 4px #000000;">Vision</h4>
+					<b style="font-family:Agency FB;font-size:17px">&emsp;&emsp;A world class leaders in professional and technological fields imbued with positive values for progress and development.</b>
+					<br>
+					<h4 style="font-family:Findet Nemo;font-size:25px;text-shadow: 2px 2px 4px #000000;">MISSION</h4>
+					<b style="font-family:Agency FB;font-size:17px">&emsp;&emsp;Provide quality education and training in Science, Technology and allied fields through instruction, research, extension and production activities.</b>
+				</div>
+
+			</div>
+		</div>
+	-->
+	<div class='pull-left'>
+		<img src="css/Banner.png" alt="" style="width:100%;margin-top:50px;margin-left:-170px;float:left;">
+	</div>
+
+	<div class="login">
+		<h1 style="	font-family: Winter Brush Demo;">Login</h1>
+	    <form name='frm_login' method='POST' action="">
+	    	<input class="" type="text" name="uname" placeholder="Username" required="required" />
+	        <input class="" type="password" name="pword" placeholder="Password" required="required" />
+	        <button name="login" 
+	        type="submit" class="btn btn-primary btn-block btn-large">Let me in.</button>
+	    </form>
+  </div>
+
+	
+  	<div class="ft-slider" syle="margin-top:500px;">
+  			<div id='carousel' class="carousel slide" data-ride="carousel">
+						<div class="carousel-inner" style="color:white">
+							<div class="item active">
+								<img src="images-slider/DataArchiving.png" alt="DataArchiving" style="height:300px;width:100%;margin-top:180px;float:left;">
+								<p><b>Eastern Visayas State University Carigara-Campus | AACUP 2016</b></p>	
+							</div>
+								
+								<div class="item">
+								<img src="images-slider/archiving-banner.png" alt="DataArchive" style="height:300px;width:100%;margin-top:180px;float:left;">
+								<p><b>Eastern Visayas State University Carigara-Campus | AACUP 2016</b></p>	
+							</div>
+
+
+							<div class="item">
+								<img src="images-slider/DataArchive.jpg" alt="DataArchive" style="height:300px;width:100%;margin-top:180px;float:left;">
+								<p><b>Eastern Visayas State University Carigara-Campus | AACUP 2016</b></p>	
+							</div>
+
+							<div class="item">
+								<img src="images-slider/cloudarchive.jpg" alt="cloudarchive" style="height:300px;width:100%;margin-top:180px;float:left;">
+								<p><b>Eastern Visayas State University Carigara-Campus | AACUP 2016</b></p>	
+							</div>
+
+							<div class="item">
+								<img src="images-slider/Folder-Archive.jpg" alt="Folder-Archive" style="height:300px;width:100%;margin-top:180px;float:left;">
+								<p><b>Eastern Visayas State University Carigara-Campus | AACUP 2016</b></p>	
+							</div>
+
+							<div class="item">
+								<img src="images-slider/Webarch-cloud.jpg" alt="Webarch-cloud" style="height:300px;width:100%;margin-top:180px;float:left;">
+								<p><b>Eastern Visayas State University Carigara-Campus | AACUP 2016</b></p>	
+							</div>
+
+							<div class="item">
+								<img src="images-slider/Archive.jpg" alt="Archive" style="height:300px;width:100%;margin-top:180px;float:left;">
+								<p><b>Eastern Visayas State University Carigara-Campus | AACUP 2016</b></p>	
+							</div>
+
+							<div class="item">
+								<img src="images-slider/D-Archiving.jpg" alt="D-Archiving" style="height:300px;width:100%;margin-top:180px;float:left;">
+								<p><b>Eastern Visayas State University Carigara-Campus | AACUP 2016</b></p>	
+							</div>
+
+						</div>
+					</div>
+
+  	</div>
+  
+    <script src="js/index.js"></script>
+
+	</body>
+</html>
