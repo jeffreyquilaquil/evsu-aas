@@ -144,16 +144,31 @@
 			$query=$this->db->query("UPDATE tbl_users SET password = '$pass' WHERE user_id = '$user_id'");
 		}
 
-		public function get_areas(){
+		public function get_areas($id = ""){
 			$sel_area_sql="SELECT * FROM tbl_areas";
 			$sel_area=$this->db->query($sel_area_sql);
 
 			$area_array=[];
 			while ($result=$sel_area->fetch_assoc()) {
 				extract($result);
+				if(!empty($id) && $id == $area_id){
+					return ['id'=>$area_id, 'name'=>$area_name];
+				}
 				array_push($area_array,['id'=>$area_id,'name'=>$area_name]);
 			}
+
 			return $area_array;
+		}
+
+		public function register_area($name){
+			$this->db->query("INSERT INTO tbl_areas SET area_name='$name'");
+			$id = $this->db->query("SELECT area_id FROM tbl_areas ORDER BY area_id DESC");
+			$id = $id->fetch_assoc() or mysql_error();
+			mkdir("../files/area ".$id['area_id']);
+		}
+
+		public function update_area($id, $name){
+			 $this->db->query("UPDATE tbl_areas SET area_name = '$name' WHERE area_id = '$id'");
 		}
 
 		public function get_questions(){

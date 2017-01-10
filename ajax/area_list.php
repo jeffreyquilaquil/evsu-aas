@@ -1,6 +1,6 @@
 <?php
 include '../db_conn.php';
-$docu = new document();
+$user = new user();
  ?>
 <!DOCTYPE html>
 <html>
@@ -9,7 +9,7 @@ $docu = new document();
     <title></title>
   </head>
   <body>
-    <table>
+    <table class="table table-striped">
       <thead>
         <th width="30%">Area No.</th>
         <th>Area Name</th>
@@ -17,7 +17,7 @@ $docu = new document();
       </thead>
       <tbody>
         <?php
-          foreach ($docu->get_areas() as $value) {
+          foreach ($user->get_areas() as $value) {
             echo '<tr>
                 <td>'.$value['id'].'</td>
                 <td>'.$value['name'].'</td>

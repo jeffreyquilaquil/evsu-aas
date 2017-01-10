@@ -22,11 +22,7 @@ $(document).ready(function(){
 		areaya = $(this).val();
 		f_ajax($(this).val(),"ajax/dload_doc.php","#doc_div div","0");
 		show_area(areaya,"#doc_div span");
-<<<<<<< HEAD
-		array_numb=[0];
-=======
 		array_numb=["0"];
->>>>>>> 130510f3927dfa86a848824eb300a3d41502740d
 		folderURL = "";
 	});
 
@@ -48,6 +44,10 @@ $(document).ready(function(){
 	$("#btn_reg").click(function(){
 		f_ajax($("#d-sel").val(), "ajax/register.php","#acct_div > div",$(this).data('fid'));
 	});
+
+	$('#area_div .btn_regArea').click(function(){
+		f_ajax(0,"ajax/register_area.php","#area_div > div",0);
+	});
 });
 
 //to view files
@@ -56,7 +56,7 @@ function download_count(file_id){
 		data:'file_id='+file_id+'&type=view_download',
 		url:'ajax/spec_functions.php',
 	}).done(function(r){
-		console.log(r);
+
 		$('#view-download .modal-body').html(r);
 		$('#view-download').modal('toggle');
 	});
@@ -67,13 +67,8 @@ function show_area(area,disp){
 }
 
 function remove_upload(){
-<<<<<<< HEAD
-	$("#filelist tr").remove();
-	f_ajax($("#d-sel").val(), "ajax/dload_doc.php","#doc_div > div",array_numb[array_numb.length-1]);
-=======
 	f_ajax($("#d-sel").val(), "ajax/dload_doc.php","#doc_div > div",(array_numb.length-1));
 	$("#filelist tr").remove();
->>>>>>> 130510f3927dfa86a848824eb300a3d41502740d
 }
 
 function f_ajax(area,url,resp,dir){
@@ -86,7 +81,7 @@ function f_ajax(area,url,resp,dir){
 		$(resp).html(r);
 	});
 }
-alert("string");
+
 function display_div(div){
 		$("#search_div").slideUp();
 		$(".navs").removeClass('active');
@@ -134,7 +129,6 @@ function display_div(div){
 			$("#area_nav").addClass('active');
 			$("#area_div").slideDown(function(){
 				f_ajax("1", "ajax/area_list.php","#area_div div","0");
-
 			});
 		}else{
 			$("#area_div").slideUp();
@@ -364,6 +358,7 @@ function check_form(){
 	};
 }
 
+// Management of user accounts
 function edit_user(uid){
 	var d = 'uid='+uid;
 	$.ajax({
@@ -386,6 +381,16 @@ function upd_user(uid){
 	}
 }
 
+// Management of areas
+function edit_area(area_no){
+	var data = 'areaNo='+area_no;
+	$.ajax({
+		data:data,
+		url:"ajax/manage_area.php"
+	}).done(function(r){
+		$("#area_div div").html(r);
+	});
+}
 
 $(document).mouseup(function (e){
 //For the user Profile
@@ -473,23 +478,14 @@ $(document).on('click','.n_li',function(){
 });
 
 function allow_download(nid){
-<<<<<<< HEAD
-	var data = "type=AD&nid="+nid;
-	$.ajax({
-		data:data,
-=======
 	var d = "type=AD&nid="+nid;
 	$.ajax({
 		data:d,
->>>>>>> 130510f3927dfa86a848824eb300a3d41502740d
 		url:"ajax/spec_functions.php"
 	}).done(function(){
 		alert_message("The document is now allowed for download.");
 		$("#allow_download").modal('hide');
-<<<<<<< HEAD
-=======
 
->>>>>>> 130510f3927dfa86a848824eb300a3d41502740d
 		// Fetch the count number of notifications after allowing or dis allowing user.
 		var data = "type=notification_count";
 		$.ajax({
