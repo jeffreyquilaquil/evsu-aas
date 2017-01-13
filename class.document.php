@@ -74,9 +74,17 @@
  	// Deletion of file
  	// File is deleted and all its relation
  	public function del_file($file_id){
+    extract($this->db->query("SELECT dir, area, filename, file_type FROM tbl_files WHERE file_id = {$file_id}")->fetch_assoc());
+    $directory = [];
+    do {
+      extract($this->db->query("SELECT name, dir FROM tbl_folders WHERE fldr_id = {$dir}")->fetch_assoc());
+      array_unshift($directory,$name);
+    } while ($dir != 0);
+    unlink('../files/area '.$area.'/'.implode('/', $directory).'/'.$filename.'.'.$file_type);
+
     $tables = ['tbl_files', 'tbl_allowed', 'tbl_notify', 'tbl_downloads'];
     foreach($tables as $value){
-      $this->db->query("DELETE FROM '$value' WHERE file_id = '$file_id'");
+      $this->db->query("DELETE FROM {$value} WHERE file_id = {$file_id}");
     }
  	}
 
