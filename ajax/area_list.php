@@ -11,7 +11,6 @@ $user = new user();
   <body>
     <table class="table table-striped">
       <thead>
-        <th width="30%">Area No.</th>
         <th>Area Name</th>
         <th width="15%">Action</th>
       </thead>
@@ -19,7 +18,6 @@ $user = new user();
         <?php
           foreach ($user->get_areas() as $value) {
             echo '<tr>
-                <td>'.$value['id'].'</td>
                 <td>'.$value['name'].'</td>
                 <td><button onclick="edit_area('.$value['id'].')"><i class="fa fa-edit"></i></button></td>
               </tr>';

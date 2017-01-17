@@ -63,7 +63,7 @@
 		}
 
 		public function get_nav(){
-
+			$admin_priv="";
 			if ($_SESSION['user_type']==1) {
 				$admin_priv = "
 					<td id='acct_nav' class='navs' onclick='display_div(3)'>Accounts</td>
@@ -77,7 +77,7 @@
 					<tr>
 						<td id='view_nav' class='navs active' onclick='display_div(1)'>Monitor</td>
 						<td id='doc_nav' class='navs' onclick='display_div(2)'>Documents</td>
-						$admin_priv
+						$admin_priv		
 					</tr>
 				</table>
 			";

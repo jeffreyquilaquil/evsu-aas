@@ -1,4 +1,3 @@
-
 $(document).ready(function(){
 	 directory = [];
 	$(document).on('dblclick','.nextDir',function(){
@@ -231,3 +230,4 @@ var uploader = new plupload.Uploader({
 		}
 	}
 });
+uploader.init();
