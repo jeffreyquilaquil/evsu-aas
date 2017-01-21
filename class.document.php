@@ -106,10 +106,11 @@
  	public function get_docu($area, $dir){
  		$uid=$_SESSION['id'];
  		if ($dir != 0) {
+      extract($this->db->query("SELECT name FROM tbl_folders WHERE id = {$dir}")->fetch_assoc());
  			echo "
 				<tr class='f-up folder prevDir' ondblClick='d_folder_up({$area})'>
 					<td><i class='fa fa-level-up'></i> Up</td>
-					<td></td>
+					<td colspan='3'>$name</td>
 					<td></td>
 					<td></td>
 				</tr>
