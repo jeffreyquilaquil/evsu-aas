@@ -236,14 +236,14 @@
  	}
 
  	public function uploadFileDetails($area, $dirName, $name, $dirId, $type, $size, $uList, $rest){
- 		if(!is_file("../files/area ".$area."/".$name)){
+		$dir_name = $name;
+		extract($this->db->query("SELECT dir_name FROM tbl_folders WHERE fldr_id = {$dirId}")->fetch_assoc());
+		if(!empty($dir_name))
+			$dir_name .= $name;
+ 		if(!is_file("../files/area ".$area."/".$dir_name)){
 	 		$author_id = $_SESSION['user_id'];
 	 		$restricted = ($rest=='true' ? 1 : 0);
-	 		$this->db->query("INSERT INTO tbl_files VALUES ('','$name','$author_id', '$size', '$type', '$area', '$dirId', '$dirName', '$restricted', now())");
-
-	 		$sql123 = $this->db->query("SELECT file_id FROM tbl_files ORDER BY file_id DESC LIMIT 1") or mysqli_error();
-	 		$fid = $sql123->fetch_assoc();
-	 		extract($fid);
+	 		$this->db->query("INSERT INTO tbl_files VALUES ('','$name','$author_id', '$size', '$type', '$area', '$dirId', '$restricted', now())");
 		 }else{
 		 		$sql123=$this->db->query("SELECT file_id FROM tbl_FILES WHERE filename = '$name' and area = '$area' and dir = '$anchor'");
 		 		$fid = $sql123->fetch_assoc();
@@ -260,33 +260,18 @@
  	}
 
   public function fetchFileDetails(){
-   $query = $this->db->query("SELECT * FROM tbl_files ORDER BY upl_date DESC LIMIT 1");
+   $query = $this->db->query("SELECT filename, tbl_files.area, tbl_folders.dir_name FROM tbl_files LEFT JOIN tbl_folders ON tbl_folders.fldr_id = tbl_files.dir ORDER BY upl_date DESC LIMIT 1");
    $result = $query->fetch_assoc();
-   $lastID = $result['file_id'];
-   $directory = $result['dir'];
    $filename = $result['filename'];
    $area = $result['area'];
-   $directoryName = [''];
 
-     while($result['dir']!=0){
-         $query = $this->db->query("SELECT name, dir FROM tbl_folders WHERE area = {$result['area']} AND fldr_id = {$result['dir']}");
-         $result = $query->fetch_assoc();
-       array_unshift($directoryName,$result['name']);
-     }
-     $directoryName = (!empty($directoryName) ? implode('/',$directoryName) : '');
-     return $filename."__../files/area ".$area.'/'.$directoryName;
+	return $filename."__../files/area ".$area.'/'.$result['dir_name'];
    }
 
- 	public function create_folder($dir, $name, $area){
- 		$qry = $this->db->query("SELECT fldr_id FROM tbl_folders WHERE name = '$name' AND dir = '$dir' AND area = '$area'");
- 		$rows=$qry->num_rows;
- 		if ($rows == 0){
-      mkdir("../files/area $area/$name",0777,true);
- 			$this->db->query("INSERT INTO tbl_folders VALUES ('', '$name', NOW(), '$dir', '$area')");
- 			return true;
- 		}else{
- 			return false;
- 		}
+ 	public function create_folder($dir, $name, $dir_name, $area){
+		$dir_name .= $name.'/';
+		mkdir("../files/area $area/$dir_name",0777,true);
+		$this->db->query("INSERT INTO tbl_folders VALUES ('', '$name', NOW(), '$dir', '$area', '$dir_name')");
  	}
 
  	public function create_folder2($dir, $name){
@@ -295,7 +280,6 @@
 
  		if ($res['dir']!=0) {
  			$name = $res['name']."/".$name;
- 			#echo $name."\n";
  			$this->create_folder2($res['dir'], $name);
  			return $name;
  		}

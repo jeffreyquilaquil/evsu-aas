@@ -1,3 +1,6 @@
+var folderURL = '';
+var folderURL2 = '';
+
 $(document).ready(function(){
 	if (user_type==1) {
 		area = 1;
@@ -9,7 +12,7 @@ $(document).ready(function(){
 	show_area("1","#doc_div span");
 	f_ajax(areaya, "ajax/dload_doc.php","#doc_div div","0");
 
-	var folderURL, folderURL2 = "";
+
 
 	$(document).on('change','#v-sel',function(){
 		f_ajax($(this).val(), "ajax/view_doc.php","#view_div div","0");
@@ -25,8 +28,9 @@ $(document).ready(function(){
 		array_numb=["0"];
 		folderURL = "";
 	});
-
+	
 	$(document).on('dblclick','.d-folder',function(){
+		
 		folderURL += $(this).data('fname')+"/";
 		array_numb.push($(this).data('fid'));
 		anchor = array_numb.length-1;
@@ -147,12 +151,12 @@ anchor = array_numb.slice(-1)[0];
 function create_folder2(area){
 	anchor = array_numb.slice(-1)[0];
 	var name=$("#new-folder .form-control").val();
-	 var d="area="+area+"&name="+name+"&dir="+anchor+"&type=new_folder";
+	var d="area="+area+"&name="+name+"&dir="+anchor+"&dir_name="+folderURL+"&type=new_folder";
 	$.ajax({
 		url:'ajax/spec_functions.php',
 		data:d
 	}).done(function(r){
-		console.log(r);
+
 		if (r) {
 			alert_message("Folder has been created");
 			$("#new-folder").modal('hide');
