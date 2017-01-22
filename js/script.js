@@ -212,7 +212,6 @@ var uploader = new plupload.Uploader({
 			fdetailsArr.push(
 				fdetails = {'restricted':restricted,'uList':uList,'area':area,'directory':fDirectory, 'type': ftypeArr[i], 'name':fnameArr[i], 'dir':$('#anchor').val() ,'size':fsizeArr[i]}
 			);
-			console.log(fdetails);
 
 			$.ajax({
 				url:"ajax/uploadDetails.php",
