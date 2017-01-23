@@ -107,6 +107,7 @@
  		$uid=$_SESSION['id'];
 
  		if ($dir != 0) {
+      extract($this->db->query("SELECT name FROM tbl_folders WHERE fldr_id = {$dir}")->fetch_assoc());
  			echo "
 				<tr class='f-up folder prevDir' ondblClick='d_folder_up({$area})'>
 					<td><i class='fa fa-level-up'></i> Up</td>
