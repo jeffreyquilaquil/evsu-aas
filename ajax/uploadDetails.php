@@ -15,7 +15,6 @@
 	}
 
 
-	$docu->uploadFileDetails($_GET['area'], $directory, $_GET['name'], $_GET['dir'], $_GET['type'], $_GET['size'], $uList, $_GET['restricted']);
 
 	$restricted = "0";
 		if($_GET['restricted'] == true){

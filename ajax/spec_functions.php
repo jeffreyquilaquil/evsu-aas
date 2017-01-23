@@ -51,10 +51,7 @@
 	}
 
 	if ($_GET['type']=="new_folder") {
-		$area = $_GET['area'];
-		$name = $_GET['name'];
-		$dir = $_GET['dir'];
-		echo $docu->create_folder($dir, $name, $area);
+		echo $docu->create_folder($_GET['dir'], $_GET['name'], $_GET['dir_name'], $_GET['area']);
 	}
 
 	if ($_GET['type']=="delete file") {
