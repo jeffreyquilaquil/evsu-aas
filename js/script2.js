@@ -66,12 +66,13 @@ function download_count(file_id){
 	});
 }
 
+
 function show_area(area,disp){
 	$(disp).text(area);
 }
 
 function remove_upload(){
-	f_ajax($("#d-sel").val(), "ajax/dload_doc.php","#doc_div > div",(array_numb.length-1));
+	f_ajax($("#d-sel").val(), "ajax/dload_doc.php","#doc_div > div",(array_numb[array_numb.length-1]));
 	$("#filelist tr").remove();
 }
 
@@ -545,7 +546,6 @@ function allow_download(nid){
 			url:"ajax/spec_functions.php",
 			data:d
 		}).done(function(r){
-			console.log(r);
 			alert_message("Successfull backup");
 			f_ajax("1","ajax/backup_list.php","#bckup_div div","0");
 		});

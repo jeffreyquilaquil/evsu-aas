@@ -47,6 +47,7 @@ $cleanupTargetDir = true; // Remove old files
 $maxFileAge = 5 * 3600; // Temp file age in seconds
 
 $name_dir = $docu->fetchFileDetails();
+
 $name_dir = explode('__', $name_dir);
 $fileName = $name_dir[0];
 $targetDir = $name_dir[1];

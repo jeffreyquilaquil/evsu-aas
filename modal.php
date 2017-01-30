@@ -151,7 +151,25 @@
 	</div>
 </div>
 
-<!-- Last ni daaat -->
+<div class="modal fade" id="manage-folder" tabindex="-1" aria-hidden="true" role="dialog" aria-labelledBy="GeneralModal">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label>
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<label>Folder Name</label>
+				<input type="text" class="form-control">
+				<input type="button" class="btn btn-default">Edit</button> | 
+				<input type="button" class="btn btn-danger">Remove</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Last ni dapat -->
 <div class='modal fade' id='message_alert' tabindex='-1' aria-hidden='true' role='dialog' aria-labelledBy='myAlertModal'>
 	<div class='modal-dialog modal-sm'>
 		<div class='modal-content'>

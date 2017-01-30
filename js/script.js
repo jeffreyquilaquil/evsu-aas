@@ -32,7 +32,6 @@ $(document).ready(function(){
 		if ($(this).data('rest')==0 || user_type == 1 || $(this).data('notify')==0) {
 			let filePath = directory.join('/');
 			 var d_link = "files/area "+$(this).data('area')+"/"+filePath+"/"+$(this).data('name');
-			 console.log(d_link);
 			 $("#download_alert .modal-body > p").html($(this).data('name'));
 			 $("#download_alert .modal-footer > a").attr('href',d_link);
 			 $("#download_alert .modal-footer > a").attr("download",'');
@@ -106,8 +105,10 @@ $(document).ready(function(){
 			$("#ua").removeAttr("disabled");
 		}
 	});
+
 });
 // Mga outside functions kay maarte man ini hra
+
 
 function alert_message(message){
 	$("#message_alert p").text(message);
