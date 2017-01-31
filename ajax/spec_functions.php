@@ -6,10 +6,8 @@
 
 	$user_id=$_SESSION['user_id'];
 
-	if ($_GET['type']=='download') {
-		$file_id=$_GET['file_id'];
-		$docu->increment_download($file_id, $user_id);
-
+	if ($_GET['type']=='increment_download') {
+		$docu->increment_download($_GET['file_id'],$_SESSION['user_id']);
 	}
 
 	if($_GET['type']=="notify"){

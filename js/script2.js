@@ -29,7 +29,7 @@ $(document).ready(function(){
 		folderURL = "";
 	});
 	
-	$(document).on('dblclick','.d-folder',function(){
+	$(document).on('click','.nextDir',function(){
 		
 		folderURL += $(this).data('fname')+"/";
 		array_numb.push($(this).data('fid'));
@@ -51,6 +51,17 @@ $(document).ready(function(){
 
 	$('#area_div .btn_regArea').click(function(){
 		f_ajax(0,"ajax/register_area.php","#area_div > div",0);
+	});
+
+	//View Download Count and Details
+	$(document).on('click','.view_download', function(){
+		$.ajax({
+			data:'file_id='+$(this).data('fid')+'&type=view_download',
+			url:'ajax/spec_functions.php'
+		}).done(function(r){
+			$('#view-download .modal-body').html(r);
+			$('#view-download').modal('toggle');
+		});
 	});
 });
 

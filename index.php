@@ -37,7 +37,7 @@ include_once "db_conn.php";
 
 	<script type="text/javascript" src='js/script.js'></script>
 	<head>
-		<title>EVSU-CC Quality Assurance Archiiving System</title>
+		<title>EVSU-CC Quality Assurance Archiving System</title>
 		<style type="text/css">
 			.navs:hover{
 				background: rgb(31, 109, 211);
@@ -54,7 +54,7 @@ include_once "db_conn.php";
 				</div> -->
 				<div class="pull-left" style='color:white;font-size:17px;margin-top:0px;mmargin-left:-20px;'>
 					<img src="css/evsu-logo.png">
-					EVSU-CC Quality Assurance Archiiving System
+					EVSU-CC Quality Assurance Archiving System
 				</div>
 				<div class="pull-right">
 					<ul>
