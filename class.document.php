@@ -106,42 +106,46 @@
  	public function get_docu($area, $dir){
  		$uid=$_SESSION['id'];
  		if ($dir != 0) {
+		  $up_folder = "<button class='btn prevDir' style='background:#233c8a;color:white;' onclick='d_folder_up({$area})'><i class='fa fa-arrow-left'></i></button>";
     	  extract($this->db->query("SELECT * FROM tbl_folders WHERE fldr_id = {$dir}")->fetch_assoc());
+		  $cur_folder = $dir_name;
  			echo "
-				<tr class='f-up folder prevDir' ondblClick='d_folder_up({$area})'>
+				<tr>
 					<td><i class='fa fa-level-up'></i> Up $name</td>
 					<td>$date</td>
 					<td>Folder</td>
-					<td></td>
+					<td>$up_folder</td>
 				</tr>
  			";
  		}
+
  		$query="SELECT * FROM tbl_folders WHERE dir = '$dir' and area = '$area'";
  		$show_folders=$this->db->query($query);
  		while ($row=$show_folders->fetch_assoc()) {
  			extract($row);
-		  $folder_settings = ($_SESSION['user_type']==1 ? "<button class='btn btn-info manage_folder'><i class='fa fa-gears'></i></button>" : ''); 			echo "<tr class='d-folder folder nextDir' data-fid='{$fldr_id}' data-type='fldr' data-fname='{$name}'>
+		  $folder_settings = ($_SESSION['user_type'] ? "<button class='btn btn-info manage_folder'><i class='fa fa-cog'></i></button>" : ''); 	
+		  $goto_folder = "<button class='btn nextDir' style='background:#1867a5;color:white;' data-fid='{$fldr_id}' data-fname='{$name}'>
+		  <i class='fa fa-arrow-right'></i></button>";		
+		  echo "<tr>
  					<td><i class='fa fa-folder'></i> $name</td>
  					<td>$date</td>
  					<td>Folder</td>
- 					<td>$folder_settings</td>
+ 					<td>$goto_folder $folder_settings</td>
 				</tr>
  			";
  		}
+		 		
  		$sel_docu_sql="SELECT file_id, filename, upl_date, author_id, file_type, file_size, rest FROM tbl_files WHERE area='$area' and dir='$dir'";
  		$sel_docu=$this->db->query($sel_docu_sql);
  		$userid = $_SESSION['user_id'];
  		while ($row=$sel_docu->fetch_assoc()) {
  			extract($row);
 
-
-      $sql = $this->db->query("SELECT n.status as n_stat, a.stat as a_stat FROM tbl_notify n LEFT JOIN tbl_allowed a ON a.file_id = n.file_id WHERE n.file_id = '$file_id' AND n.user_id = '$userid'");
-      $sql = $this->db->query("SELECT n.status, a.stat from tbl_notify n LEFT JOIN tbl_allowed a ON a.file_id = n.file_id WHERE n.file_id = '$file_id' AND n.user_id = '$userid'");
-      $res = $sql->fetch_assoc();
-       if (count($res) == 0) {
-         $res['status'] = -1;
-         $res['stat'] = -1;
-       }
+     	 $sql = $this->db->query("SELECT n.status, a.stat from tbl_notify n LEFT JOIN tbl_allowed a ON a.file_id = n.file_id WHERE n.file_id = '$file_id' AND n.user_id = '$userid'");
+     	 $res = $sql->fetch_assoc();
+			if (empty($res)) {
+				$res['status'] = 0;
+			}
 
  			switch ($file_type) {
  				case 'mp3': 	$i_cls='fa fa-file-audio-o';	break;
@@ -158,14 +162,42 @@
  				default:		$i_cls="fa fa-file-o";			break;
  			}
 
- 			echo "
-				<tr class='docu' style='border-top:1px solid rgb(221,221,221);border-bottom:1px solid rgb(221,221,221);' data-fid='{$file_id}' data-fid='{$file_id}' data-name='{$filename}' data-area='{$area}' data-type='{$file_type}' data-rest='{$rest}' data-notify='".$res['status']."' data-ald='".$res['stat']."'>
+			$cur_folder = (isset($cur_folder) ? $cur_folder : '');
+			$download_attr = '';
+			$link = "#";
+			
+		 	if($rest){
+				 $btn_class = 'btn-danger';
+				 $logo = "fa-ban";
+				 $onclick_function = "";
+			 }elseif($res['status']){
+				 $btn_class = 'btn-warning';
+				 $logo = "fa-exclamation";
+				 $onclick_function = "";
+			 }else{
+				 $btn_class = 'btn-info download_docu';
+				 $logo = "fa-download";
+				 $onclick_function = "onclick='$.fn.increment_download(".$file_id.")'";
+				 $link = "files/area ".$area."/".$cur_folder.$filename;
+				 $download_attr = "download";
+			 }
+			
+			$docu_btn = '<a href="'.$link.'" '.$download_attr.' '.$onclick_function.'><button class="docu_btn btn '.$btn_class.'"><i class="fa '.$logo.'" aria-expanded="true"></i></button></a>';
+
+			if($_SESSION['user_type'] || $_SESSION['area'] == $area){
+				$manage_docu_btn = '
+					<button class="btn view_download" style="background:#1646c2;color:white" data-fid="{$file_id}"><i class="fa fa-eye"></i></button>
+				';
+			}
+
+			echo "
+				<tr class='docu' style='border-top:1px solid rgb(221,221,221);border-bottom:1px solid rgb(221,221,221);'>
 					<td><i class='{$i_cls}'></i> $filename</td>
 					<td>$upl_date</td>
 					<td>$file_type</td>
-					<td>$file_size</td>
+					<td>$docu_btn $manage_docu_btn</td>
 				</tr>
- 			";
+			";
  		}
  	}
 

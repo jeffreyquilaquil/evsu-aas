@@ -24,7 +24,7 @@
 				<th>Name</th>
 				<th>Date</th>
 				<th>Type</th>
-				<th>Size</th>
+				<th>Action</th>
 			</thead>
 			<tbody>
 				<?php $docu->get_docu($area, $dir)?>

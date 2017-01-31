@@ -1,23 +1,10 @@
 $(document).ready(function(){
 	 directory = [];
-	$(document).on('dblclick','.nextDir',function(){
+	$(document).on('click','.nextDir',function(){
 		directory.push($(this).data('fname'));
 	});
-	$(document).on('dblclick','.prevDir',function(){
+	$(document).on('click','.prevDir',function(){
 		directory.pop();
-	});
-
-	$(document).on('click', '.docu,.doc_dload,.folder', function(){
-		$(".docu, .doc_dload,.folder").css('background','none');
-		if ($(this).data('rest')==0 || user_type == 1 || $(this).data('fldr')=='fldr' || $(this).data('ald')==1 || $(this).data('notify')==0) {
-			$(this).css('background','rgb(208, 227, 252)'); //skyblue
-		}else{
-			if($(this).data('notify')==1) {
-				$(this).css('background','rgb(255, 255, 111)'); //yellow
-			}else if ($(this).data('rest')==1 || $(this).data('notify')==2){
-				$(this).css('background','rgb(241, 75, 84)');//red
-			}
-		}
 	});
 
 	$(document).on('change','#d-sel',function(){
@@ -25,8 +12,8 @@ $(document).ready(function(){
 		$('#anchor').val('0');
 	});
 
-	 $(document).on('dblclick','.docu',function(){
-		file_id=$(this).data('fid');1
+	 $(document).on('dblclick','.docu_btn',function(){
+		file_id=$(this).data('fid');
 		$("#download_alert .modal-footer > a").removeAttr("download");
 		$("#download_alert .modal-footer > a").removeAttr('onclick');
 		if ($(this).data('rest')==0 || user_type == 1 || $(this).data('notify')==0) {
@@ -54,14 +41,13 @@ $(document).ready(function(){
 		$("#download_alert").modal('show');
 	});
 
-	$.fn.download_docu=function(){
-		$("#download_alert").modal("hide");
-		var increment="file_id="+file_id+"&type=download";
+	// Download Button
+	$.fn.increment_download=function(file_id){
 		$.ajax({
 			url:"ajax/spec_functions.php",
-			data:increment,
+			data:"file_id="+file_id+"&type=increment_download"
 		}).done(function(){
-			alert_message("Document was successfully downloaded");
+			alert_message("Download Succesful");
 		});
 	 };
 
