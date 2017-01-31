@@ -105,14 +105,13 @@
 
  	public function get_docu($area, $dir){
  		$uid=$_SESSION['id'];
-
  		if ($dir != 0) {
-      extract($this->db->query("SELECT name FROM tbl_folders WHERE fldr_id = {$dir}")->fetch_assoc());
+    	  extract($this->db->query("SELECT * FROM tbl_folders WHERE fldr_id = {$dir}")->fetch_assoc());
  			echo "
 				<tr class='f-up folder prevDir' ondblClick='d_folder_up({$area})'>
-					<td><i class='fa fa-level-up'></i> Up</td>
-					<td colspan='3'>$name</td>
-					<td></td>
+					<td><i class='fa fa-level-up'></i> Up $name</td>
+					<td>$date</td>
+					<td>Folder</td>
 					<td></td>
 				</tr>
  			";
@@ -121,11 +120,11 @@
  		$show_folders=$this->db->query($query);
  		while ($row=$show_folders->fetch_assoc()) {
  			extract($row);
- 			echo "<tr class='d-folder folder nextDir' data-fid='{$fldr_id}' data-type='fldr' data-fname='{$name}'>
+		  $folder_settings = ($_SESSION['user_type']==1 ? "<button class='btn btn-info manage_folder'><i class='fa fa-gears'></i></button>" : ''); 			echo "<tr class='d-folder folder nextDir' data-fid='{$fldr_id}' data-type='fldr' data-fname='{$name}'>
  					<td><i class='fa fa-folder'></i> $name</td>
  					<td>$date</td>
  					<td>Folder</td>
- 					<td></td>
+ 					<td>$folder_settings</td>
 				</tr>
  			";
  		}
