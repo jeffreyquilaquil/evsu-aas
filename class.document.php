@@ -123,9 +123,9 @@
  		$show_folders=$this->db->query($query);
  		while ($row=$show_folders->fetch_assoc()) {
  			extract($row);
-		  $folder_settings = ($_SESSION['user_type'] ? "<button class='btn btn-info manage_folder'><i class='fa fa-cog'></i></button>" : ''); 	
+		  $folder_settings = ($_SESSION['user_type'] ? "<button class='btn btn-info manage_folder'><i class='fa fa-cog'></i></button>" : '');
 		  $goto_folder = "<button class='btn nextDir' style='background:#1867a5;color:white;' data-fid='{$fldr_id}' data-fname='{$name}'>
-		  <i class='fa fa-arrow-right'></i></button>";		
+		  <i class='fa fa-arrow-right'></i></button>";
 		  echo "<tr>
  					<td><i class='fa fa-folder'></i> $name</td>
  					<td>$date</td>
@@ -134,7 +134,7 @@
 				</tr>
  			";
  		}
-		 		
+
  		$sel_docu_sql="SELECT file_id, filename, upl_date, author_id, file_type, file_size, rest FROM tbl_files WHERE area='$area' and dir='$dir'";
  		$sel_docu=$this->db->query($sel_docu_sql);
  		$userid = $_SESSION['user_id'];
@@ -153,9 +153,9 @@
  				case 'jpg':		$i_cls='fa fa-file-image-o';	break;
  				case 'png':		$i_cls='fa fa-file-image-o';	break;
  				case 'gif':		$i_cls='fa fa-file-image-o';	break;
-  				case 'mp4':		$i_cls='fa fa-file-movie-o';	break;
+  			case 'mp4':		$i_cls='fa fa-file-movie-o';	break;
  				case 'avi':		$i_cls="fa fa-file-movie-o";	break;
-  				case 'pdf':		$i_cls='fa fa-file-pdf-o';		break;
+  			case 'pdf':		$i_cls='fa fa-file-pdf-o';		break;
  				case 'ppt':		$i_cls='fa fa-file-powerpoint-o';break;
  				case 'doc':		$i_cls="fa fa-file-word-o";		break;
  				case 'docx':	$i_cls="fa fa-file-word-o";		break;
@@ -165,24 +165,28 @@
 			$cur_folder = (isset($cur_folder) ? $cur_folder : '');
 			$download_attr = '';
 			$link = "#";
-			
-		 	if($rest){
-				 $btn_class = 'btn-danger';
+
+
+		 	 if($res['status']){
+         $btn_class = 'btn-warning';
+         $logo = "fa-exclamation";
+         $onclick_function = "";
+         $tooltip_text = "Administrator has been notified";
+       }elseif($rest){
+         $btn_class = 'btn-danger';
 				 $logo = "fa-ban";
-				 $onclick_function = "";
-			 }elseif($res['status']){
-				 $btn_class = 'btn-warning';
-				 $logo = "fa-exclamation";
-				 $onclick_function = "";
-			 }else{
+				 $onclick_function = "$.fn.notify_admin(".$file_id.")";
+         $tooltip_text = "Restricted for Download. Click to Notify.";
+       }else{
 				 $btn_class = 'btn-info download_docu';
 				 $logo = "fa-download";
-				 $onclick_function = "onclick='$.fn.increment_download(".$file_id.")'";
+				 $onclick_function = "$.fn.increment_download(".$file_id.")";
 				 $link = "files/area ".$area."/".$cur_folder.$filename;
 				 $download_attr = "download";
+         $tooltip_text = "Download File";
 			 }
-			
-			$docu_btn = '<a href="'.$link.'" '.$download_attr.' '.$onclick_function.'><button class="docu_btn btn '.$btn_class.'"><i class="fa '.$logo.'" aria-expanded="true"></i></button></a>';
+
+			$docu_btn = '<a id="docu_btn'.$file_id.'" href="'.$link.'" '.$download_attr.' onclick="'.$onclick_function.'" data-toggle="tooltip" title="'.$tooltip_text.'"><button class="docu_btn btn '.$btn_class.'"><i class="fa '.$logo.'" aria-expanded="true"></i></button></a>';
 
 			if($_SESSION['user_type'] || $_SESSION['area'] == $area){
 				$manage_docu_btn = '

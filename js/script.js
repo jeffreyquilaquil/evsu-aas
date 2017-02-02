@@ -51,14 +51,15 @@ $(document).ready(function(){
 		});
 	 };
 
-	$.fn.notify_docu=function(file_id){
-		var notify='file_id='+file_id+'&type=notify';
+	$.fn.notify_admin=function(file_id){
+		$('#docu_btn'+file_id).removeAttr('onclick');
+		$('#docu_btn'+file_id+' button').css('background','#ecdf34');
+		$('#docu_btn'+file_id+' i').removeClass('fa-ban').addClass('fa-exclamation');
 		$.ajax({
-			data:notify,
+			data:'file_id='+file_id+'&type=notify',
 			url:'ajax/spec_functions.php',
 		}).done(function(){
 			alert_message('The Admin/Author has been notified about the requested download.');
-			$("#download_alert").modal('hide');
 		});
 	}
 
