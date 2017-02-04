@@ -5,20 +5,11 @@ $(document).ready(function(){
 	if (user_type==1) {
 		area = 1;
 	}
-	show_area(area,"#view_div span");
-	f_ajax(area, "ajax/view_doc.php","#view_div div","0");
 	var areaya = 1;
 
-	show_area("1","#doc_div span");
-	f_ajax(areaya, "ajax/dload_doc.php","#doc_div div","0");
-
-
-
-	$(document).on('change','#v-sel',function(){
-		f_ajax($(this).val(), "ajax/view_doc.php","#view_div div","0");
-		show_area($(this).val(),"#view_div span");
-		array_numb2=["0"];
-		folderUrl = "";
+	$("#doc_div").slideDown(function(){
+		show_area("1","#doc_div span");
+		f_ajax(areaya, "ajax/dload_doc.php","#doc_div div","0");
 	});
 
 	$(document).on('change','#d-sel',function(){
@@ -28,21 +19,14 @@ $(document).ready(function(){
 		array_numb=["0"];
 		folderURL = "";
 	});
-	
+
 	$(document).on('click','.nextDir',function(){
-		
+
 		folderURL += $(this).data('fname')+"/";
 		array_numb.push($(this).data('fid'));
 		anchor = array_numb.length-1;
 		$("#anchor").val($(this).data('fid'));
 		f_ajax($("#d-sel").val(), "ajax/dload_doc.php","#doc_div > div",$(this).data('fid'));
-	});
-
-	$(document).on('dblclick','.v-folder',function(){
-		folderURL2 += $(this).data('fname')+"/";
-		array_numb2.push($(this).data('fid'));
-		anchor = array_numb2.length-1;
-		f_ajax($("#v-sel").val(), "ajax/view_doc.php","#view_div > div",$(this).data('fid'));
 	});
 
 	$("#btn_reg").click(function(){
@@ -53,30 +37,7 @@ $(document).ready(function(){
 		f_ajax(0,"ajax/register_area.php","#area_div > div",0);
 	});
 
-	//View Download Count and Details
-	$(document).on('click','.view_download', function(){
-		$.ajax({
-			data:'file_id='+$(this).data('fid')+'&type=view_download',
-			url:'ajax/spec_functions.php'
-		}).done(function(r){
-			$('#view-download .modal-body').html(r);
-			$('#view-download').modal('toggle');
-		});
-	});
 });
-
-//to view files
-function download_count(file_id){
-	$.ajax({
-		data:'file_id='+file_id+'&type=view_download',
-		url:'ajax/spec_functions.php',
-	}).done(function(r){
-
-		$('#view-download .modal-body').html(r);
-		$('#view-download').modal('toggle');
-	});
-}
-
 
 function show_area(area,disp){
 	$(disp).text(area);
@@ -102,16 +63,6 @@ function display_div(div){
 		$("#search_div").slideUp();
 		$(".navs").removeClass('active');
 		$(".navs").css('background','#3090C3');
-		if (div==1) {
-			$("#view_nav").addClass('active');
-			$("#view_div").slideDown(function(){
-
-				 f_ajax(area, "ajax/view_doc.php","#view_div div");
-				 show_area(area,"#view_div span");
-			});
-		}else{
-			$("#view_div").slideUp();
-		}
 
 		if (div==2) {
 			$("#doc_nav").addClass('active');
@@ -180,23 +131,6 @@ function create_folder2(area){
 }
 
 // This code here is for the uploading of files. Feel free to UPDATE.
-
-// File deletion
-function del_file(file_id){
-	var confirm = window.confirm("Are you sure you want to delete this file?");
-	if (confirm) {
-		var d = "file_id="+file_id+"&type=delete file";
-		$.ajax({
-			url:"ajax/spec_functions.php",
-			data:d
-		}).done(function(){
-			f_ajax(area,"ajax/dload_doc.php","#doc_div div","0");
-			f_ajax(area,"ajax/view_doc.php","#view_div div","0");
-
-			alert_message("File has been deleted");
-		});
-	};
-}
 
 var file_upl=[0];
 function upload_modal(area){
@@ -334,11 +268,6 @@ function d_folder_up(area){
 	f_ajax(area, "ajax/dload_doc.php","#doc_div > div",anchor);
 }
 array_numb2=["0"];
-function v_folder_up(area){
-	array_numb2.pop();
-	anchor1 = array_numb2.slice(-1)[0];
-	f_ajax(area, "ajax/view_doc.php","#view_div > div",anchor1);
-}
 
 uname_arr=uname_arr.split(',');
 function check_uname(){
@@ -461,14 +390,13 @@ $("#frm_cp").validate({
 
 $("#cp_but").click(function(){
 	if ($("#frm_cp").valid()) {
-		var d='pass='+$("#cp_cp").val()+"&type=ChangePass";
-		$.ajax({
-			url:"ajax/spec_functions.php",
-			data:d,
-		}).done(function(){
-			$("#change_pass").modal('toggle');
-			alert_message("Your password has been changed.");
-		});
+		var param = {
+			'pass' : $('#cp_cp').val()
+		};
+		var type = "ChangePass";
+		pass_spec_data(param, type);
+		$("#change_pass").modal('toggle');
+		alert_message("Your password has been changed.");
 	};
 });
 
@@ -573,7 +501,7 @@ function allow_download(nid){
 				$("#search_div div").html(r);
 			});
 
-			$("#view_div, #doc_div, #acct_div ,#bckup_div, #area_div").slideUp();
+			$(" #doc_div, #acct_div ,#bckup_div, #area_div").slideUp();
 			$("#search_div").slideDown();
 
 	});

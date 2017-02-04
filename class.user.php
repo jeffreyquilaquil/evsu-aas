@@ -75,9 +75,8 @@
 			echo"
 				<table style='background:#3090C3;color:white;'>
 					<tr>
-						<td id='view_nav' class='navs active' onclick='display_div(1)'>Monitor</td>
-						<td id='doc_nav' class='navs' onclick='display_div(2)'>Documents</td>
-						$admin_priv		
+						<td id='doc_nav' class='navs active' onclick='display_div(2)'>Documents</td>
+						$admin_priv
 					</tr>
 				</table>
 			";

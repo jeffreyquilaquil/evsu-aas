@@ -48,8 +48,12 @@
 		$docu->backup("../files");
 	}
 
-	if ($_GET['type']=="new_folder") {
-		echo $docu->create_folder($_GET['dir'], $_GET['name'], $_GET['dir_name'], $_GET['area']);
+	if ($_GET['type']=="new-folder") {
+		$docu->create_folder($_GET['dir'], $_GET['name'], $_GET['area']);
+	}
+
+	if($_GET['type'] == "update-folder"){
+		$docu->update_folder($_GET['id'], $_GET['name']);
 	}
 
 	if ($_GET['type']=="delete file") {

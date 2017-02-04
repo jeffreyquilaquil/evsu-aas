@@ -17,19 +17,20 @@
 	</div>
 </div>
 
-<div class="modal fade" id="new-folder" tabindex="-1" aria-hidden="true" role="dialog" aria-labelledBy="CreateNewFolder">
+<div class="modal fade" id="modal-folder" tabindex="-1" aria-hidden="true" role="dialog" aria-labelledBy="CreateNewFolder">
 	<div class="modal-dialog modal-sm">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type='button' class='close' data-dismiss='modal' aria-label><span aria-hidden='true'>&times;</span>
 				</button>
-				<i class="fa fa-folder"></i> New Folder</div>
+				<i class="fa fa-folder"></i> Folder Management
+			</div>
 			<div class="modal-body">
-				<label for="folder-name">New name</label>
+				<label for="folder-name"></label>
 				<input class='form-control' type='text' id='new_folder' name='folder-name'>
 			</div>
 			<div class="modal-footer">
-				<button class="btn btn-info">Done</button>
+				<button class="btn btn-info">Submit</button>
 				<button class="btn btn-success" data-dismiss='modal'>Cancel</button>
 			</div>
 		</div>
@@ -162,7 +163,7 @@
 			<div class="modal-body">
 				<label>Folder Name</label>
 				<input type="text" class="form-control">
-				<input type="button" class="btn btn-default">Edit</button> | 
+				<input type="button" class="btn btn-default">Edit</button> |
 				<input type="button" class="btn btn-danger">Remove</button>
 			</div>
 		</div>

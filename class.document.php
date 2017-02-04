@@ -16,48 +16,6 @@
  		}
  	}
 
- 	// display download status of owned document
- 	public function download_status($area, $dir){
-
- 		if ($dir != 0) {
- 			echo "
-				<tr class='f-up folder' ondblClick='v_folder_up({$area})'>
-					<td><i class='fa fa-level-up'></i> Up</td>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr>
- 			";
- 		}
- 		$query="SELECT * FROM tbl_folders WHERE dir = '$dir' and area = '$area'";
- 		$show_folders=$this->db->query($query);
- 		while ($row=$show_folders->fetch_assoc()) {
- 			extract($row);
- 			echo "<tr class='v-folder folder' data-fid='{$fldr_id}' data-type='fldr' data-fname='{$name}'>
- 					<td colspan='5'><i class='fa fa-folder'></i> $name</td>
-				</tr>
- 			";
- 		}
-
-		$sel_download_sql = "SELECT file_id, filename FROM tbl_files WHERE area = '$area' AND dir = '$dir'";
-		$sel_download= $this->db->query($sel_download_sql) or mysqli_errno();
-
- 		while ($result=$sel_download->fetch_assoc()) {
-
- 			extract($result);
- 			echo "
-				<tr class='doc_dload' data-rest='0' data-notify='0' data-fid='{$file_id}' style='border-top:1px solid rgb(221,221,221);border-bottom:1px solid rgb(221,221,221)'>
-					<td onclick='download_count({$file_id})'>{$filename}</td>
-					<td>
-						<button class='btn' style='background:blue' onclick='del_file({$file_id})'>
-							<i class='fa fa-times' style='color:white;font-size:15px;'></i>
-						</button>
-					</td>
-				</tr>
- 			";
- 		}
- 	}
-
 	public function view_download($file_id){
 		$get_all_download = $this->db->query("SELECT date, CONCAT(firstname,' ',lastname) as 'name' FROM tbl_downloads LEFT JOIN tbl_users ON tbl_users.user_id = tbl_downloads.user_id WHERE file_id = {$file_id} ");
 		echo "<table width='100%'>";
@@ -107,7 +65,7 @@
  		$uid=$_SESSION['id'];
  		if ($dir != 0) {
 		  $up_folder = "<button class='btn prevDir' style='background:#233c8a;color:white;' onclick='d_folder_up({$area})'><i class='fa fa-arrow-left'></i></button>";
-    	  extract($this->db->query("SELECT * FROM tbl_folders WHERE fldr_id = {$dir}")->fetch_assoc());
+    	  extract($this->db->query("SELECT name, date, dir_name FROM tbl_folders WHERE fldr_id = {$dir}")->fetch_assoc());
 		  $cur_folder = $dir_name;
  			echo "
 				<tr>
@@ -123,7 +81,7 @@
  		$show_folders=$this->db->query($query);
  		while ($row=$show_folders->fetch_assoc()) {
  			extract($row);
-		  $folder_settings = ($_SESSION['user_type'] ? "<button class='btn btn-info manage_folder'><i class='fa fa-cog'></i></button>" : '');
+		  $folder_settings = ($_SESSION['user_type'] ? "<button class='btn btn-info manage-folder' data-toggle='tooltip' title='Change Settings' data-id='".$fldr_id."' data-name='".$name."'><i class='fa fa-cog'></i></button>" : '');
 		  $goto_folder = "<button class='btn nextDir' style='background:#1867a5;color:white;' data-fid='{$fldr_id}' data-fname='{$name}'>
 		  <i class='fa fa-arrow-right'></i></button>";
 		  echo "<tr>
@@ -141,7 +99,7 @@
  		while ($row=$sel_docu->fetch_assoc()) {
  			extract($row);
 
-     	 $sql = $this->db->query("SELECT n.status, a.stat from tbl_notify n LEFT JOIN tbl_allowed a ON a.file_id = n.file_id WHERE n.file_id = '$file_id' AND n.user_id = '$userid'");
+     	 $sql = $this->db->query("SELECT n.status, a.stat from tbl_notify n LEFT JOIN tbl_allowed a ON a.file_id = n.file_id WHERE n.file_id = '$file_id' AND n.user_id = '$userid' ORDER BY nid DESC");
      	 $res = $sql->fetch_assoc();
 			if (empty($res)) {
 				$res['status'] = 0;
@@ -166,7 +124,6 @@
 			$download_attr = '';
 			$link = "#";
 
-
 		 	 if($res['status']){
          $btn_class = 'btn-warning';
          $logo = "fa-exclamation";
@@ -186,11 +143,12 @@
          $tooltip_text = "Download File";
 			 }
 
-			$docu_btn = '<a id="docu_btn'.$file_id.'" href="'.$link.'" '.$download_attr.' onclick="'.$onclick_function.'" data-toggle="tooltip" title="'.$tooltip_text.'"><button class="docu_btn btn '.$btn_class.'"><i class="fa '.$logo.'" aria-expanded="true"></i></button></a>';
+			$docu_btn = '<a id="docu_btn'.$file_id.'" href="'.$link.'" '.$download_attr.' onclick="'.$onclick_function.'" data-toggle="tooltip" title="'.$tooltip_text.'"><button class="btn '.$btn_class.'"><i class="fa '.$logo.'" aria-expanded="true"></i></button></a>';
 
 			if($_SESSION['user_type'] || $_SESSION['area'] == $area){
 				$manage_docu_btn = '
-					<button class="btn view_download" style="background:#1646c2;color:white" data-fid="{$file_id}"><i class="fa fa-eye"></i></button>
+					<a href="#" data-toggle="tooltip" title="View Document Downloads" onclick="$.fn.view_download('.$file_id.')"><button class="btn view_download" style="background:#1646c2;color:white"><i class="fa fa-eye"></i></button></a>
+          <a href="#" data-toggle="tooltip" title="Delete File" onclick="del_file('.$file_id.')"><button class="btn" style="background:#cf2929;color:white"><i class="fa fa-times"></i></button></a>
 				';
 			}
 
@@ -303,22 +261,20 @@
 	return $filename."__../files/area ".$area.'/'.$result['dir_name'];
    }
 
- 	public function create_folder($dir, $name, $dir_name, $area){
-		$dir_name .= $name.'/';
-		mkdir("../files/area $area/$dir_name",0777,true);
-		$this->db->query("INSERT INTO tbl_folders VALUES ('', '$name', NOW(), '$dir', '$area', '$dir_name')");
+ 	public function create_folder($dir, $name, $area){
+		$query = $this->db->query("SELECT name, dir_name FROM tbl_folders WHERE fldr_id = {$dir}")->fetch_assoc();
+    $directory = '';
+    if(!empty($query)){
+      $directory = $query['dir_name'].$query['name'].'/';
+    }
+    $this->db->query("INSERT INTO tbl_folders VALUES ('', '$name', NOW(), '$dir', '$area', '$directory')");
+    $directory .= $name;
+		mkdir("../files/area $area/$directory",0777,true);
  	}
 
- 	public function create_folder2($dir, $name){
- 		$qry = $this->db->query("SELECT * FROM tbl_folders WHERE fldr_id = '$dir'");
- 		$res = $qry->fetch_assoc();
-
- 		if ($res['dir']!=0) {
- 			$name = $res['name']."/".$name;
- 			$this->create_folder2($res['dir'], $name);
- 			return $name;
- 		}
- 	}
+  public function update_folder($id, $name){
+    $this->db->query("UPDATE tbl_folders SET name = '$name' WHERE fldr_id = '$id'");
+  }
 
  	public function check_backup(){
  		$shtc = $this->db->query("SELECT * FROM tbl_backup ORDER BY bid DESC LIMIT 1");
@@ -372,6 +328,7 @@
 
 			// Zip archive will be created only after closing object
 			$zip->close();
+
 			$query = $this->db->query("SELECT interv FROM tbl_backup ORDER BY bid DESC LIMIT 1");
 			$result=$query->fetch_assoc();
 			extract($result);

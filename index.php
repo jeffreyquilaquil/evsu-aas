@@ -126,23 +126,7 @@ include_once "db_conn.php";
 			<div id="nav">
 				<?php $user->get_nav()?>
 			</div>
-
-			<!-- Monitor -->
-			<div id='view_div'>
-				<h3>Area <span class='disp_area'></span></h3>
-
-					<?php
-						if ($_SESSION['user_type']==1) {
-							echo "<select class='pull-right form-control' style='width:30%;' id='v-sel'>";
-							$user->sel_area();
-							echo"</select>";
-						}
-					?>
-				<div>
-
-				</div>
-			</div>
-
+			
 			<!-- Documents -->
 			<div id="doc_div">
 

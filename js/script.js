@@ -12,56 +12,84 @@ $(document).ready(function(){
 		$('#anchor').val('0');
 	});
 
-	 $(document).on('dblclick','.docu_btn',function(){
-		file_id=$(this).data('fid');
-		$("#download_alert .modal-footer > a").removeAttr("download");
-		$("#download_alert .modal-footer > a").removeAttr('onclick');
-		if ($(this).data('rest')==0 || user_type == 1 || $(this).data('notify')==0) {
-			let filePath = directory.join('/');
-			 var d_link = "files/area "+$(this).data('area')+"/"+filePath+"/"+$(this).data('name');
-			 $("#download_alert .modal-body > p").html($(this).data('name'));
-			 $("#download_alert .modal-footer > a").attr('href',d_link);
-			 $("#download_alert .modal-footer > a").attr("download",'');
-			 $("#download_alert .modal-footer > a").attr('onclick','$.fn.download_docu('+file_id+')');
-			 var text = "Download";
-		 }else{
-			if ($(this).data('notify')==1) {
-				$("#download_alert .modal-body > p").html("The Administrator has already been notified about your request.");
-				var text = "Okay, I'll wait";
-			}else if ($(this).data("rest")==1) {
-				$("#download_alert .modal-body > p").html("This document is restricted for download.Notify the Administrator for your request");
-				$("#download_alert .modal-footer > a").attr('onclick','$.fn.notify_docu('+file_id+')');
-				var text = "Notify";
-			};
-
-			$("#download_alert .modal-footer > a").attr('data-dismiss','modal');
-		}
-
-		$("#download_alert .modal-footer a > button").text(text);
-		$("#download_alert").modal('show');
-	});
-
 	// Download Button
 	$.fn.increment_download=function(file_id){
-		$.ajax({
-			url:"ajax/spec_functions.php",
-			data:"file_id="+file_id+"&type=increment_download"
-		}).done(function(){
-			alert_message("Download Succesful");
-		});
+		var param = {
+			'file_id': file_id
+		}
+		var type='increment_download';
+
+		pass_spec_data(param, type);
+		alert_message("Download Successful");
 	 };
 
 	$.fn.notify_admin=function(file_id){
 		$('#docu_btn'+file_id).removeAttr('onclick');
 		$('#docu_btn'+file_id+' button').css('background','#ecdf34');
 		$('#docu_btn'+file_id+' i').removeClass('fa-ban').addClass('fa-exclamation');
-		$.ajax({
-			data:'file_id='+file_id+'&type=notify',
-			url:'ajax/spec_functions.php',
-		}).done(function(){
-			alert_message('The Admin/Author has been notified about the requested download.');
-		});
+
+		var param = {
+			'file_id' : file_id
+		};
+		pass_spec_data(param,'notify');
+		alert_message("Admin notified");
 	}
+
+	$.fn.view_download=function(file_id){
+		var param = {
+			'file_id' : file_id
+		};
+		var resp = pass_spec_data(param,'view_download');
+		$('#view-download .modal-body > div').html(resp);
+		$('#view-download').modal('toggle');
+	}
+
+// Folder Functions
+// Create Folder
+	$(document).on('click','.new-folder',function(){
+		var modal = "#modal-folder";
+		$(modal).attr('data-op','create');
+		$(modal).attr('data-area', $(this).data('area') );
+		$(modal).attr('data-dir', $(this).data('dir') );
+		$(modal+' .modal-body > label').html('New Folder Name');
+		$(modal).modal('toggle');
+	});
+
+// Update Folder
+	$(document).on('click','.manage-folder',function(){
+		var modal = '#modal-folder';
+		$(modal).attr('data-op','manage');
+		$(modal).attr('data-id', $(this).data('id') );
+		$(modal+' .modal-body > label').html('Update Name');
+		$(modal+' .modal-body > input').val( $(this).data('name') );
+		$(modal).modal('toggle');
+	});
+
+// Save Folder
+	$('#modal-folder .btn-info').click(function(){
+		if( $('#modal-folder').data('op') == 'create' ){
+			var param = {
+				'area': $('#modal-folder').data('area'),
+				'dir': $('#modal-folder').data('dir'),
+				'name': $('#modal-folder input').val(),
+			};
+			var type = 'new-folder';
+		}
+
+		if( $('#modal-folder').data('op') == 'manage' ){
+			var param = {
+				'id' : $('#modal-folder').data('id'),
+				'name' : $('#modal-folder input').val()
+			}
+
+			var type = 'update-folder';
+		}
+
+		pass_spec_data(param, type);
+		alert_message("Folder created");
+		$("#modal-folder").modal('toggle');
+	});
+
 
 	$.fn.download_backup=function(){
 		alert("Succesfull backup download");
@@ -92,10 +120,26 @@ $(document).ready(function(){
 			$("#ua").removeAttr("disabled");
 		}
 	});
-
 });
 // Mga outside functions kay maarte man ini hra
 
+// Function for passing data into spec_function.php
+function pass_spec_data(param,type){
+	var data = '';
+	for(var key in param){
+		data += key +'='+param[key]+'&';
+	}
+	data += 'type='+type;
+	var output = "";
+	$.ajax({
+		data:data,
+		url:'ajax/spec_functions.php',
+		async:false
+	}).done(function(resp){
+		output = resp;
+	});
+		return output;
+}
 
 function alert_message(message){
 	$("#message_alert p").text(message);

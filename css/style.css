@@ -207,7 +207,7 @@ body{
 	padding-top: 20px;
 }
 
-#doc_div, #acct_div, #bckup_div, #area_div{
+#acct_div, #bckup_div, #area_div{
 	display: none;
 }
 #view_div div, #doc_div div, #acct_div div, #bckup_div div, #area_div div{
