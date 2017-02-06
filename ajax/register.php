@@ -1,10 +1,10 @@
 <?php
 include '../db_conn.php';
 $user=new user();
-$unames=$user->get_unames();
+$uname_arr=$user->get_unames();
 ?>
 <html>
-	<head>
+<head>
 		<style type="text/css">
 			tr{
 				border:none;
@@ -40,7 +40,7 @@ $unames=$user->get_unames();
 						<input name='lname' required class='form-control' id='ln'>
 					</td>
 					<td style='border:none;'>
-						<input name='uname' required class='form-control' onblur='check_uname()' id='un'>
+					<input name='uname' required class='form-control' onblur='check_uname()' id='un'>
 						<label id='unameCheck_err' for='uname' style='display:none'>Username no longer available.</label>
 					</td>
 				</tr>
@@ -50,9 +50,6 @@ $unames=$user->get_unames();
 					</td>
 					<td style='border:none;'>
 						<label class="input_label">Area</label>
-					</td>
-					<td style='border:none'>
-						<label class='input_label'>Password</label>
 					</td>
 				</tr>
 				<tr >
@@ -70,29 +67,6 @@ $unames=$user->get_unames();
 								}
 							?>
 						</select>
-					</td>
-					<td style='border:none;'>
-						<input type="password" name="pword" class='Form-control' required id='pw'>
-					</td>
-				</tr>
-				<tr >
-					<td style='border:none;'>
-						<label class='input_label'>Secret Question</label>
-					</td>
-					<td style='border:none;'>
-						<label class="input_label">Secret Answer</label>
-					</td>
-				</tr>
-				<tr >
-					<td style='border:none;'>
-						<select class='form-control' name='sc_q' id='sq'>
-							<?php
-								$user->get_questions();
-							?>
-						</select>
-					</td>
-					<td style='border:none;'>
-						<input type='text' name="sc_a" required class="form-control" id='sa'>
 					</td>
 					<td style='border:none;'>
 						<button type='button' class='btn btn-info pull-right form-control' id="btn_form" onclick="check_form()">Done</button>

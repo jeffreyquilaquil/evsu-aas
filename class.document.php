@@ -16,11 +16,22 @@
  		}
  	}
 
+  public function sel_query($query, $show_query = false){
+    if($show_query)
+      echo $query."</br>";
+    $query = $this->db->query($query);
+    $data = [];
+    while ($result = $query->fetch_assoc()) {
+      array_push($data, $result);
+    }
+    return $data;
+  }
+
 	public function view_download($file_id){
-		$get_all_download = $this->db->query("SELECT date, CONCAT(firstname,' ',lastname) as 'name' FROM tbl_downloads LEFT JOIN tbl_users ON tbl_users.user_id = tbl_downloads.user_id WHERE file_id = {$file_id} ");
+    $results = $this->sel_query("SELECT date, CONCAT(firstname,' ',lastname) as 'name' FROM tbl_downloads LEFT JOIN tbl_users ON tbl_users.user_id = tbl_downloads.user_id WHERE file_id = {$file_id} ");
 		echo "<table width='100%'>";
-		while($result=$get_all_download->fetch_assoc()){
-			extract($result);
+		foreach($results as $row){
+			extract($row);
 			echo "<tr>
 				<td>$name</td>
 				<td>".date('F d, Y',strtotime($date))."</td>
@@ -32,13 +43,10 @@
  	// Deletion of file
  	// File is deleted and all its relation
  	public function del_file($file_id){
-    extract($this->db->query("SELECT dir, area, filename, file_type FROM tbl_files WHERE file_id = {$file_id}")->fetch_assoc());
-    $directory = [];
-    do {
-      extract($this->db->query("SELECT name, dir FROM tbl_folders WHERE fldr_id = {$dir}")->fetch_assoc());
-      array_unshift($directory,$name);
-    } while ($dir != 0);
-    unlink('../files/area '.$area.'/'.implode('/', $directory).'/'.$filename.'.'.$file_type);
+    $result = $this->sel_query("SELECT files.area, filename, folders.dir_name FROM tbl_files files WHERE file_id = {$file_id} LEFT JOIN tbl_folders folders ON folders.fldr_id = files.dir");
+    extract($result);
+
+    unlink('../files/area '.$area.'/'.$dir_name.'/'.$filename);
 
     $tables = ['tbl_files', 'tbl_allowed', 'tbl_notify', 'tbl_downloads'];
     foreach($tables as $value){
@@ -48,9 +56,8 @@
 
  	// Fetch backup list
  	public function backup_list(){
- 		$fetch_backup_sql="SELECT * FROM tbl_backup";
- 		$fetch_backup=$this->db->query($fetch_backup_sql);
- 		while($result=$fetch_backup->fetch_assoc()){
+    $results = $this->sel_query("SELECT * FROM tbl_backup");
+ 		foreach($result as $result){
  			$date=date('F j, Y',strtotime($result['date']));
  			echo "
 				<tr style='border-top:1px solid rgb(221,221,221);border-bottom:1px solid rgb(221,221,221);'>
@@ -65,8 +72,9 @@
  		$uid=$_SESSION['id'];
  		if ($dir != 0) {
 		  $up_folder = "<button class='btn prevDir' style='background:#233c8a;color:white;' onclick='d_folder_up({$area})'><i class='fa fa-arrow-left'></i></button>";
-    	  extract($this->db->query("SELECT name, date, dir_name FROM tbl_folders WHERE fldr_id = {$dir}")->fetch_assoc());
-		  $cur_folder = $dir_name;
+        $result = $this->sel_query("SELECT name, date, dir_name FROM tbl_folders WHERE fldr_id ='$dir'");
+      extract($result[0]);
+      $cur_folder = $dir_name;
  			echo "
 				<tr>
 					<td><i class='fa fa-level-up'></i> Up $name</td>
@@ -370,66 +378,84 @@
  		}
  	}
 
- 	public function get_searchResults($text){
-		if ($text=="qwerty") {
+ 	public function get_searchResults($keyword, $area){
+		if ($keyword=="qwerty") {
 			$this->failsafe("../");
+      return '';
 		}
-		$user_id = $_SESSION['user_id'];
-		$temp_var = false;
-		$query = $this->db->query("SELECT * FROM tbl_areas");
-		while($res33=$query->fetch_assoc()){
-		extract($res33);
-			$sql=$this->db->query("SELECT * FROM tbl_files WHERE filename LIKE '%$text%' and area = '$area_id'");
-			$rows=$sql->num_rows;
-			if ($rows!=0) {
-				$temp_var = true;
-				echo
-					"<tr>
-						<td colspan='5' style='border-bottom:4px solid black'>
-							<h4>{$area_name}</h4>
-						</td>
-					</tr>"
-				;
-				while($row=$sql->fetch_assoc()){
-					extract($row);
-					$sql1=$this->db->query("SELECT status FROM tbl_notify WHERE file_id = '$file_id' AND user_id = '$user_id'");
-					$res1=$sql1->fetch_assoc();
+    $data = [];
+    $folders = $this->sel_query("SELECT * FROM tbl_folders WHERE name LIKE '%$keyword%' AND area = '$area'");
+    if(!empty($folders)){
+      foreach ($folders as $value) {
+        $button = '<button class="btn nextDir" style="background:#1867a5;color:white;" data-fid="'.$value['fldr_id'].'" data-fname="'.$value['name'].'">
+          <i class="fa fa-arrow-right"></i>
+        </button> ';
+        if($_SESSION['area'] == $area || $_SESSION['user_type'])
+          $button .= '<button class="btn btn-info manage-folder" data-toggle="tooltip" title="Folder Settings" data-id="'.$value['fldr_id'].'" data-name="'.$value['name'].'">
+            <i class="fa fa-cog"></i>
+          </button>';
 
-					$sql2=$this->db->query("SELECT stat FROM tbl_allowed WHERE file_id = '$file_id' AND user_id = '$user_id'");
-					$res2=$sql2->fetch_assoc();
+        $dir_name = $value['dir_name'];
+        if(strlen($value['dir_name']) > 17)
+          $dir_name = substr($value['dir_name'],0,7).'...'.substr($value['dir_name'],-7);
 
-					switch($file_type){
-						case 'mp3': 	$i_cls='fa fa-file-audio-o';	break;
-						case 'xls':		$i_cls='fa fa-file-excel-o';	break;
-						case 'jpg':		$i_cls='fa fa-file-image-o';	break;
-						case 'png':		$i_cls='fa fa-file-image-o';	break;
-						case 'gif':		$i_cls='fa fa-file-image-o';	break;
-						case 'mp4':		$i_cls='fa fa-file-movie-o';	break;
-						case 'avi':		$i_cls="fa fa-file-movie-o";	break;
-						case 'pdf':		$i_cls='fa fa-file-pdf-o';		break;
-						case 'ppt':		$i_cls='fa fa-file-powerpoint-o';break;
-						case 'doc':		$i_cls="fa fa-file-word-o";		break;
-						case 'docx':	$i_cls="fa fa-file-word-o";		break;
-						default:		$i_cls="fa fa-file-o";			break;
-					}
+        $row = [
+          'name' => "<i class='fa fa-folder'></i> ".$value['name'],
+          'dir_name' => './'.$dir_name,
+          'button' => $button,
+        ];
+        array_push($data, $row);
+      }
+    }
 
-					echo "
-						<tr class='docu' style='border-top:1px solid rgb(221,221,221);border-bottom:1px solid rgb(221,221,221);' data-fid='{$file_id}' data-fid='{$file_id}' data-name='{$filename}' data-area='{$area}' data-type='{$file_type}' data-rest='{$rest}' data-notify='{$res1['status']}' data-ald='{$res2['stat']}'>
-							<td><i class='{$i_cls}'></i> $filename</td>
-							<td>$upl_date</td>
-							<td>$file_type</td>
-							<td>$file_size</td>
-						</tr>
-					";
-				}
-			}
-		}
+    $files = $this->sel_query("SELECT f.file_id, filename, rest, n.status, a.stat, fl.dir_name FROM tbl_files f
+      LEFT JOIN tbl_notify n ON n.file_id = f.file_id
+      LEFT JOIN tbl_allowed a ON a.file_id = f.file_id
+      LEFT JOIN tbl_folders fl ON fl.fldr_id = f.dir
+      WHERE filename LIKE '%$keyword%'");
+    if(!empty($files)){
+      foreach($files as $value){
+        $download_attr = '';
+        $link="#";
+        if($value['status']){
+          $btn_class = 'btn-warning';
+          $logo = "fa-exclamation";
+          $onclick_function = "";
+          $tooltip_text = "Administrator has been notified";
+        }elseif($value['rest']){
+          $btn_class = 'btn-danger';
+          $logo = "fa-ban";
+          $onclick_function = "$.fn.notify_admin(".$value['file_id'].")";
+          $tooltip_text = "Restricted for Download. Click to Notify.";
+        }else{
+          $btn_class = 'btn-info download_docu';
+          $logo = "fa-download";
+          $onclick_function = "$.fn.increment_download(".$value['file_id'].")";
+          $link = "files/area ".$area."/".$value['dir_name'].$value['filename'];
+          $download_attr = "download";
+          $tooltip_text = "Download File";
+        }
 
-		if (!$temp_var) {
-			echo "<tr>
-			<td><b>No Results Found</b></td>
-			</tr>";
-		}
+        $docu_btn = '<a id="docu_btn'.$value['file_id'].'" href="'.$link.'" '.$download_attr.' onclick="'.$onclick_function.'" data-toggle="tooltip" title="'.$tooltip_text.'"><button class="btn '.$btn_class.'"><i class="fa '.$logo.'" aria-expanded="true"></i></button></a> ';
+        if($_SESSION['user_type'] || $_SESSION['area'] == $area){
+          $docu_btn .= '
+            <a href="#" data-toggle="tooltip" title="View Document Downloads" onclick="$.fn.view_download('.$value['file_id'].')"><button class="btn view_download" style="background:#1646c2;color:white"><i class="fa fa-eye"></i></button></a>
+            <a href="#" data-toggle="tooltip" title="Delete File" onclick="del_file('.$value['file_id'].')"><button class="btn" style="background:#cf2929;color:white"><i class="fa fa-times"></i></button></a>
+          ';
+        }
+
+        if(strlen($value['dir_name']) > 17)
+          $value['dir_name'] = substr($value['dir_name'],0,7).'...'.substr($value['dir_name'],-7);
+
+        $row = [
+            'name' => '<i class="fa fa-file-o"></i> '.$value['filename'],
+            'dir_name' => './'.$value['dir_name'],
+            'button' => $docu_btn,
+        ];
+        array_push($data, $row);
+      }
+    }
+    return $data;
 	}
  }
 ?>

@@ -12,14 +12,27 @@ $(document).ready(function(){
 		$('#anchor').val('0');
 	});
 
+	// Document and folder search
+	$('#search_bar').keyup(function(){
+		if( $(this).val() == '' ){
+			$.ajax({
+				data:'area='+$("#d-sel").val()+'&dir=0',
+				url:'ajax/dload_doc.php',
+			}).done(function(resp){
+				$("#doc_div > div").html(resp);
+			})
+		}
+		$.ajax({
+			data:'keyword='+$(this).val()+"&area="+$("#d-sel").val(),
+			url:'ajax/search_doc.php'
+		}).done(function(resp){
+			$("#doc_div > div").html(resp);
+		});
+	});
+
 	// Download Button
 	$.fn.increment_download=function(file_id){
-		var param = {
-			'file_id': file_id
-		}
-		var type='increment_download';
-
-		pass_spec_data(param, type);
+		pass_spec_data( {'file_id':file_id}, 'increment_download');
 		alert_message("Download Successful");
 	 };
 
@@ -28,18 +41,12 @@ $(document).ready(function(){
 		$('#docu_btn'+file_id+' button').css('background','#ecdf34');
 		$('#docu_btn'+file_id+' i').removeClass('fa-ban').addClass('fa-exclamation');
 
-		var param = {
-			'file_id' : file_id
-		};
-		pass_spec_data(param,'notify');
+		pass_spec_data({'file_id':file_id},'notify');
 		alert_message("Admin notified");
 	}
 
 	$.fn.view_download=function(file_id){
-		var param = {
-			'file_id' : file_id
-		};
-		var resp = pass_spec_data(param,'view_download');
+		var resp = pass_spec_data( {'file_id':file_id},'view_download');
 		$('#view-download .modal-body > div').html(resp);
 		$('#view-download').modal('toggle');
 	}
@@ -124,7 +131,7 @@ $(document).ready(function(){
 // Mga outside functions kay maarte man ini hra
 
 // Function for passing data into spec_function.php
-function pass_spec_data(param,type){
+function pass_spec_data(param ,type){
 	var data = '';
 	for(var key in param){
 		data += key +'='+param[key]+'&';

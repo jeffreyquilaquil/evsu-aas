@@ -126,17 +126,20 @@ include_once "db_conn.php";
 			<div id="nav">
 				<?php $user->get_nav()?>
 			</div>
-			
+
 			<!-- Documents -->
 			<div id="doc_div">
-
 				<h3>Area <span class='disp_area'></span></h3>
 				<input type='hidden' id='anchor'>
+				<input type="text" placeholder="Search" id="search_bar" class="pull-right form-control" style="position:static;margin-top:-45px;margin-right:35%;width:20%">
+				<!-- <input type="text" placeholder="Search" class="form-control" style="width:30%;top:-11px;left:35%;position:relative;"> -->
 					<?php
 						echo"<select class='pull-right form-control' id='d-sel' style='width:30%;'>";
 						$user->sel_area();
 						echo "</select>";
 					?>
+
+
 				<div>
 				</div>
 			</div>
@@ -255,8 +258,8 @@ include_once "db_conn.php";
 <script type="text/javascript">
 	var area = <?php echo json_encode($area);?>;
 	var user_type = <?php echo json_encode($_SESSION['user_type']);?>;
-	var uname_arr = <?php echo json_encode($unames);?>;
 	var name_arr = <?php echo json_encode($names)?>;
 	var id_arr = <?php echo json_encode($ids)?>;
+	var uname_arr = <?php echo json_encode($unames)?>;
 </script>
 <script type="text/javascript" src="js/script2.js"></script>

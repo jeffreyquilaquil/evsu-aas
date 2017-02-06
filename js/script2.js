@@ -393,8 +393,7 @@ $("#cp_but").click(function(){
 		var param = {
 			'pass' : $('#cp_cp').val()
 		};
-		var type = "ChangePass";
-		pass_spec_data(param, type);
+		pass_spec_data(param, 'ChangePass');
 		$("#change_pass").modal('toggle');
 		alert_message("Your password has been changed.");
 	};
@@ -403,12 +402,12 @@ $("#cp_but").click(function(){
 //For the profile
 $("#p-upd").click(function(){
 	if ($("#p-frm").valid()) {
-		var d = "type=p_upd&p_fn"+$("#p-fn").val()+"&p_ln="+$("#p-ln").val();
-		$.ajax({
-			type:"POST",
-			data:d,
-			url:"ajax/spec_functions.php",
-		});
+		var param = {
+			'p_fn':$("#p-fn").val(),
+			'p_ln': $('#p-ln').val()
+		}
+		var type = 'p_upd';
+		pass_spec_data(param, 'p_upd');
 	};
 });
 
@@ -422,54 +421,26 @@ $(document).on('click','.n_li',function(){
 });
 
 function allow_download(nid){
-	var d = "type=AD&nid="+nid;
-	$.ajax({
-		data:d,
-		url:"ajax/spec_functions.php"
-	}).done(function(){
-		alert_message("The document is now allowed for download.");
-		$("#allow_download").modal('hide');
+	pass_spec_data({'nid':nid}, 'AD');
+	alert_message("The document available for download.");
+	$("#allow_download").modal('toggle');
 
 		// Fetch the count number of notifications after allowing or dis allowing user.
-		var data = "type=notification_count";
-		$.ajax({
-			url:"ajax/spec_functions.php",
-			data:data
-		}).done(function(r){
-			$("#notifications p").html(r);
-		});
-	});
+		$('#notifications p').html( pass_spec_data('','notification_count') );
 }
 
 	function reject_download(nid){
-		var d ='type=ADC&nid='+nid;
-		$.ajax({
-			data:d,
-			url:"ajax/spec_functions.php"
-		}).done(function(){
-			alert_message("The users request has been rejected");
-			$("#allow_download").modal('hide');
+		pass_spec_data({'nid':nid},'ADC');
+		alert_message("The user request, rejected.");
+		$("#allow_download").modal('toggle');
 
 		// Fetch the count number of notifications after allowing or dis allowing user.
-		var data = "type=notification_count";
-		$.ajax({
-			url:"ajax/spec_functions.php",
-			data:data
-		}).done(function(r){
-			$("#notifications p").html(r);
-		});
-	});
+		$('#notifications p').html( pass_spec_data('','notification_count') );
 	}
 
 	// archives
 	$("#btn_hisetBckup").click(function(){
-		var d = "value="+$("#slc_bckup").val()+"&type=set_bckup";
-		$.ajax({
-			url:"ajax/spec_functions.php",
-			data:d
-		}).done(function(){
-			$(".set_backup").modal('toggle');
-		});
+		pass_spec_data({ 'value':$("#slc_bckup").val() }, 'set_bckup');
 	});
 
 	// this will display the modal for setting the interval of the automatic backup
@@ -480,31 +451,10 @@ function allow_download(nid){
 	// Send a request to the file "ajax/spec_functions.php"
 	// Where it will try to look for the keyword to process the backup;
 	$(".btn_doBackup").click(function(){
-		var d = "type=backup";
-		$.ajax({
-			url:"ajax/spec_functions.php",
-			data:d
-		}).done(function(r){
-			alert_message("Successfull backup");
-			f_ajax("1","ajax/backup_list.php","#bckup_div div","0");
-		});
-	});
-
-	// Search
-	$("#frm_search").submit(function(){
-		// $("#search_div").slideDown(function(){
-			var d = "s="+$("#frm_search input").val();
-			$.ajax({
-				url:"ajax/search_doc.php",
-				data:d
-			}).done(function(r){
-				$("#search_div div").html(r);
-			});
-
-			$(" #doc_div, #acct_div ,#bckup_div, #area_div").slideUp();
-			$("#search_div").slideDown();
-
-	});
+		pass_spec_data('','backup');
+		alert_message("Successfull backup");
+		f_ajax("1","ajax/backup_list.php","#bckup_div div","0");
+  });
 
 	// For the logout button
 	// Ask first user if they are really logging out.

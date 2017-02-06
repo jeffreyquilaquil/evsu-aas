@@ -159,8 +159,8 @@
 			return $area_array;
 		}
 
-		public function register_area($name){
-			$this->db->query("INSERT INTO tbl_areas SET area_name='$name'");
+		public function register_area($name, $no){
+			$this->db->query("INSERT INTO tbl_areas SET area_name='$name', SET area_no='$no'");
 			$id = $this->db->query("SELECT area_id FROM tbl_areas ORDER BY area_id DESC");
 			$id = $id->fetch_assoc() or mysql_error();
 			mkdir("../files/area ".$id['area_id']);

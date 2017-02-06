@@ -6,6 +6,7 @@
 
 	$user_id=$_SESSION['user_id'];
 
+
 	if ($_GET['type']=='increment_download') {
 		$docu->increment_download($_GET['file_id'],$_SESSION['user_id']);
 	}
@@ -65,7 +66,7 @@
 	}
 
 	if($_GET['type']=='area_reg'){
-		$user->register_area($_GET['name']);
+		$user->register_area($_GET['name'], $_GET['no']);
 	}
 
 	if($_GET['type']=='area_upd'){
