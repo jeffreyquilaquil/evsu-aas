@@ -175,90 +175,90 @@ function remove_row(id){
 	file_upl.splice(id,1);
 }
 
-function upload_files(){
-	var f_count = 0;
-	var arr_id=[];
-	for(i=0;i<file_upl.length;i++){
-		if($("#file"+i).get(0).files.length != 0){
-			f_count++;
-			arr_id.push(i);
-		}
-	}
-
-	// uploading those F****** Files
-	// Loop through each file going to be uploaded
-
-	var i = 0;
-	while(i<arr_id.length){
-		var fd = new FormData();
-		var id = arr_id[i];
-		anchor = array_numb.slice(-1)[0];
-		// check if the filebox is not empty
-
-		fd.append("rest",0);
-		data_arr=[];
-		flag = true;
-
-		// Check if specific users can view this document
-		// Or everyone
-		if ($("#chkbx"+id).is(":checked")) {
-
-			// Loop on each accounts and check if it is selected.
-			// If true, add them to an array then append to form data
-			$(".file_user"+id).each(function(){
-				if($(this).is(":checked")){
-					data_arr.push($(this).val());
-				}
-			});
-			fd.append("rest",1);
-		}
-
-		 fd.append("user", data_arr);
-		 fd.append("file", $("#file"+id)[0].files[0]);
-		 fd.append("area",areaya);
-		 fd.append("anchor",anchor);
-
-		 var file_name = $("#file"+id).val();
-		 file_name = file_name.split('\\').pop().split('/').pop();
-		 file_name = "files/area "+areaya+"/"+file_name;
-
-		 var upload = function(fd){
-		 	$.ajax({
-		 		url:"ajax/upload_docu.php",
-		 		cache:false,
-		 		data:fd,
-		 		type:"POST",
-		 		processData:false
-		 	}).complete(function(){
-		 		f_count++;
-		 		// if (f_count == arr_id.length) {
-		 		// 	f_ajax(areaya, "ajax/dload_doc.php","#doc_div div", anchor);
-		 		// 	$("#file-upload").modal('hide');
-		 		// 	$('.upload-row').remove();
-		 		// 	alert_message("Successful upload of document.");
-		 		// 	file_upl=[0];
-		 		// };
-		 	});
-		 }
-
-		var pass_data = "url="+file_name;
-		$.ajax({
-			url:"ajax/check_file.php",
-			data:pass_data
-		}).done(function(response){
-			if (response=="true") {
-				var confirm = window.confirm(file_name+" already exist, Replace file?");
-			}else{
-				upload(fd);
-			}
-
-			if (confirm) {
-				upload(fd);
-			};
-		});
-	i++;
-	}
-}
+// function upload_files(){
+// 	var f_count = 0;
+// 	var arr_id=[];
+// 	for(i=0;i<file_upl.length;i++){
+// 		if($("#file"+i).get(0).files.length != 0){
+// 			f_count++;
+// 			arr_id.push(i);
+// 		}
+// 	}
+//
+// 	// uploading those F****** Files
+// 	// Loop through each file going to be uploaded
+//
+// 	var i = 0;
+// 	while(i<arr_id.length){
+// 		var fd = new FormData();
+// 		var id = arr_id[i];
+// 		anchor = array_numb.slice(-1)[0];
+// 		// check if the filebox is not empty
+//
+// 		fd.append("rest",0);
+// 		data_arr=[];
+// 		flag = true;
+//
+// 		// Check if specific users can view this document
+// 		// Or everyone
+// 		if ($("#chkbx"+id).is(":checked")) {
+//
+// 			// Loop on each accounts and check if it is selected.
+// 			// If true, add them to an array then append to form data
+// 			$(".file_user"+id).each(function(){
+// 				if($(this).is(":checked")){
+// 					data_arr.push($(this).val());
+// 				}
+// 			});
+// 			fd.append("rest",1);
+// 		}
+//
+// 		 fd.append("user", data_arr);
+// 		 fd.append("file", $("#file"+id)[0].files[0]);
+// 		 fd.append("area",areaya);
+// 		 fd.append("anchor",anchor);
+//
+// 		 var file_name = $("#file"+id).val();
+// 		 file_name = file_name.split('\\').pop().split('/').pop();
+// 		 file_name = "files/area "+areaya+"/"+file_name;
+//
+// 		 var upload = function(fd){
+// 		 	$.ajax({
+// 		 		url:"ajax/upload_docu.php",
+// 		 		cache:false,
+// 		 		data:fd,
+// 		 		type:"POST",
+// 		 		processData:false
+// 		 	}).complete(function(){
+// 		 		f_count++;
+// 		 		// if (f_count == arr_id.length) {
+// 		 		// 	f_ajax(areaya, "ajax/dload_doc.php","#doc_div div", anchor);
+// 		 		// 	$("#file-upload").modal('hide');
+// 		 		// 	$('.upload-row').remove();
+// 		 		// 	alert_message("Successful upload of document.");
+// 		 		// 	file_upl=[0];
+// 		 		// };
+// 		 	});
+// 		 }
+//
+// 		var pass_data = "url="+file_name;
+// 		$.ajax({
+// 			url:"ajax/check_file.php",
+// 			data:pass_data
+// 		}).done(function(response){
+// 			if (response=="true") {
+// 				var confirm = window.confirm(file_name+" already exist, Replace file?");
+// 			}else{
+// 				upload(fd);
+// 			}
+//
+// 			if (confirm) {
+// 				upload(fd);
+// 			};
+// 		});
+// 	i++;
+// 	}
+// }
 
 array_numb=["0"];
 var anchor;
@@ -406,8 +406,8 @@ $("#p-upd").click(function(){
 			'p_fn':$("#p-fn").val(),
 			'p_ln': $('#p-ln').val()
 		}
-		var type = 'p_upd';
 		pass_spec_data(param, 'p_upd');
+		alert_message("Update success. Refresh to see update");
 	};
 });
 

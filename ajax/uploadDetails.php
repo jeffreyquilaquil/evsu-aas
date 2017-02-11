@@ -3,7 +3,7 @@
 	include '../db_conn.php';
 
 	$docu = new document();
-	$directory = "";
+	$directory = NULL;
 	if(isset($_GET['directory'])){
 		$directory .= $_GET['directory'];
 	}

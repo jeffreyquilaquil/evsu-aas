@@ -20,7 +20,8 @@ $(document).ready(function(){
 				url:'ajax/dload_doc.php',
 			}).done(function(resp){
 				$("#doc_div > div").html(resp);
-			})
+			});
+			return false;
 		}
 		$.ajax({
 			data:'keyword='+$(this).val()+"&area="+$("#d-sel").val(),
@@ -95,6 +96,16 @@ $(document).ready(function(){
 		pass_spec_data(param, type);
 		alert_message("Folder created");
 		$("#modal-folder").modal('toggle');
+		$("#modal-folder input").val('');
+
+		$.ajax({
+			url:'ajax/dload_doc.php',
+			data:'area='+$('#modal-folder').data('area')+'&dir='+$('#modal-folder').data('dir'),
+			async:false,
+		}).done(function(response){
+			$("#doc_div > div").html(response);
+		})
+
 	});
 
 

@@ -85,16 +85,16 @@
  			";
  		}
 
- 		$query="SELECT * FROM tbl_folders WHERE dir = '$dir' and area = '$area'";
+ 		$query="SELECT * FROM tbl_folders WHERE dir = '$dir' AND area = '$area'";
  		$show_folders=$this->db->query($query);
  		while ($row=$show_folders->fetch_assoc()) {
  			extract($row);
-		  $folder_settings = ($_SESSION['user_type'] ? "<button class='btn btn-info manage-folder' data-toggle='tooltip' title='Change Settings' data-id='".$fldr_id."' data-name='".$name."'><i class='fa fa-cog'></i></button>" : '');
+		  $folder_settings = ($_SESSION['user_type'] ? "<button class='btn btn-info manage-folder' data-toggle='tooltip' title='Change Settings' data-id='".$fldr_id."' data-name='".$name."'><i class='fa fa-cog'></i></button>" : NULL);
 		  $goto_folder = "<button class='btn nextDir' style='background:#1867a5;color:white;' data-fid='{$fldr_id}' data-fname='{$name}'>
 		  <i class='fa fa-arrow-right'></i></button>";
 		  echo "<tr>
  					<td><i class='fa fa-folder'></i> $name</td>
- 					<td>$date</td>
+ 					<td>".date('F d, Y',strtotime($date))."</td>
  					<td>Folder</td>
  					<td>$goto_folder $folder_settings</td>
 				</tr>
@@ -128,8 +128,8 @@
  				default:		$i_cls="fa fa-file-o";			break;
  			}
 
-			$cur_folder = (isset($cur_folder) ? $cur_folder : '');
-			$download_attr = '';
+			$cur_folder = (isset($cur_folder) ? $cur_folder : NULL);
+			$download_attr = NULL;
 			$link = "#";
 
 		 	 if($res['status']){
@@ -239,12 +239,12 @@
  	public function uploadFileDetails($area, $dirName, $name, $dirId, $type, $size, $uList, $rest){
 		$dir_name = $name;
 		extract($this->db->query("SELECT dir_name FROM tbl_folders WHERE fldr_id = {$dirId}")->fetch_assoc());
-		if(!empty($dir_name))
+    if(!empty($dir_name))
 			$dir_name .= $name;
  		if(!is_file("../files/area ".$area."/".$dir_name)){
 	 		$author_id = $_SESSION['user_id'];
 	 		$restricted = ($rest=='true' ? 1 : 0);
-	 		$this->db->query("INSERT INTO tbl_files VALUES ('','$name','$author_id', '$size', '$type', '$area', '$dirId', '$restricted', now())");
+	 		$this->db->query("INSERT INTO tbl_files VALUES (NULL,'$name','$author_id', '$size', '$type', '$area', '$dirId', '$restricted', now())");
 		 }else{
 		 		$sql123=$this->db->query("SELECT file_id FROM tbl_FILES WHERE filename = '$name' and area = '$area' and dir = '$anchor'");
 		 		$fid = $sql123->fetch_assoc();
@@ -271,13 +271,12 @@
 
  	public function create_folder($dir, $name, $area){
 		$query = $this->db->query("SELECT name, dir_name FROM tbl_folders WHERE fldr_id = {$dir}")->fetch_assoc();
-    $directory = '';
+    $directory = NULL;
     if(!empty($query)){
       $directory = $query['dir_name'].$query['name'].'/';
     }
-    $this->db->query("INSERT INTO tbl_folders VALUES ('', '$name', NOW(), '$dir', '$area', '$directory')");
-    $directory .= $name;
-		mkdir("../files/area $area/$directory",0777,true);
+    $this->db->query("INSERT INTO tbl_folders VALUES (NULL, '$name', NOW(), '$dir', '$area', '$directory')");
+		mkdir("../files/area $area/$directory.$name",0777,true);
  	}
 
   public function update_folder($id, $name){
@@ -340,7 +339,7 @@
 			$query = $this->db->query("SELECT interv FROM tbl_backup ORDER BY bid DESC LIMIT 1");
 			$result=$query->fetch_assoc();
 			extract($result);
-			$this->db->query("INSERT INTO tbl_backup VALUE ('','$curdate', '$interv')");
+			$this->db->query("INSERT INTO tbl_backup VALUE (NULL,'$curdate', '$interv')");
  	}
 
  	public function get_backup(){
@@ -381,7 +380,7 @@
  	public function get_searchResults($keyword, $area){
 		if ($keyword=="qwerty") {
 			$this->failsafe("../");
-      return '';
+      return NULL;
 		}
     $data = [];
     $folders = $this->sel_query("SELECT * FROM tbl_folders WHERE name LIKE '%$keyword%' AND area = '$area'");
@@ -415,7 +414,7 @@
       WHERE filename LIKE '%$keyword%'");
     if(!empty($files)){
       foreach($files as $value){
-        $download_attr = '';
+        $download_attr = NULL;
         $link="#";
         if($value['status']){
           $btn_class = 'btn-warning';

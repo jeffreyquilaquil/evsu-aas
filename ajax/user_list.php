@@ -3,7 +3,7 @@ include '../db_conn.php';
 $user=new user();
 if (isset($_GET['reg'])) {
 	extract($_REQUEST);
-	$user->reg_user($fname, $lname, $uname, $pword, $type, $area, $sc_question, $sc_answer);
+	$user->reg_user($fname, $lname, $uname, 'abcd1234', $type, $area);
 	echo "
 		<script type='text/javascript'>
 			alert_message('Registration successful');

@@ -15,8 +15,9 @@
 		}
 
 		// Registration of users
-		public function reg_user($fname,$lname,$uname,$pword,$type,$area,$sc_question,$sc_answer){
-				$reg_user_sql="INSERT INTO tbl_users SET firstname='$fname', lastname='$lname', username='$uname', password='$pword',user_type='$type',user_status=1,area='$area', sc_question='$sc_question',sc_answer='$sc_answer',f_login=1";
+		public function reg_user($fname,$lname,$uname,$pword,$type,$area){
+
+				$reg_user_sql="INSERT INTO tbl_users SET firstname='$fname', lastname='$lname', username='$uname', password='$pword',user_type='$type',user_status=1,area='$area',f_login=1";
 				$reg_user=$this->db->query($reg_user_sql) or die(mysqli_error());
 
 		}
