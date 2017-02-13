@@ -56,7 +56,7 @@ $(document).ready(function(){
 // Create Folder
 	$(document).on('click','.new-folder',function(){
 		var modal = "#modal-folder";
-		$(modal).attr('data-op','create');
+		$(modal+' #span').text('create');
 		$(modal).attr('data-area', $(this).data('area') );
 		$(modal).attr('data-dir', $(this).data('dir') );
 		$(modal+' .modal-body > label').html('New Folder Name');
@@ -67,7 +67,7 @@ $(document).ready(function(){
 // Update Folder
 	$(document).on('click','.manage-folder',function(){
 		var modal = '#modal-folder';
-		$(modal).attr('data-op','manage');
+		$(modal+' #span').text('manage');
 		$(modal).attr('data-id', $(this).data('id') );
 		$(modal+' .modal-body > label').html('Update Name');
 		$(modal+' .modal-body > input').val( $(this).data('name') );
@@ -76,7 +76,8 @@ $(document).ready(function(){
 
 // Save Folder
 	$('#modal-folder .btn-info').click(function(){
-		if( $('#modal-folder').data('op') == 'create' ){
+
+		if( $('#modal-folder #span').text() == "create" ){
 			var param = {
 				'area': $('#modal-folder').data('area'),
 				'dir': $('#modal-folder').data('dir'),
@@ -85,7 +86,7 @@ $(document).ready(function(){
 			var type = 'new-folder';
 		}
 
-		if( $('#modal-folder').data('op') == 'manage' ){
+		if( $('#modal-folder #span').text() == "manage" ){
 			var param = {
 				'id' : $('#modal-folder').data('id'),
 				'name' : $('#modal-folder input').val()
@@ -93,20 +94,21 @@ $(document).ready(function(){
 
 			var type = 'update-folder';
 		}
-		console.log(param);
-	//	pass_spec_data(param, type);
-		alert_message("Folder management success.");
-		$("#modal-folder").modal('toggle');
-		$("#modal-folder input").val('');
+
+		pass_spec_data(param, type);
 
 		$.ajax({
 			url:'ajax/dload_doc.php',
-			data:'area='+$('#modal-folder').data('area')+'&dir='+$('#modal-folder').data('dir'),
+			data:'area='+$("#d-sel").val()+'&dir='+$("#anchor").val(),
 			async:false,
 		}).done(function(response){
 			$("#doc_div > div").html(response);
-		})
+		});
 
+		alert_message("Folder management success.");
+		$("#modal-folder").modal('toggle');
+		$("#modal-folder").removeAttr('data-op');
+		$("#modal-folder input").val('');
 	});
 
 

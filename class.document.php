@@ -85,7 +85,7 @@
  			";
  		}
 
- 		$query="SELECT * FROM tbl_folders WHERE dir = '$dir' AND area = '$area'";
+ 		$query="SELECT * FROM tbl_folders WHERE dir = '$dir' AND area = '$area' ORDER BY LENGTH(name), name";
  		$show_folders=$this->db->query($query);
  		while ($row=$show_folders->fetch_assoc()) {
  			extract($row);

@@ -19,6 +19,7 @@
 
 <div class="modal fade" id="modal-folder" tabindex="-1" aria-hidden="true" role="dialog" aria-labelledBy="CreateNewFolder">
 	<div class="modal-dialog modal-sm">
+		<span id="span" hidden></span>
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type='button' class='close' data-dismiss='modal' aria-label><span aria-hidden='true'>&times;</span>
@@ -27,6 +28,7 @@
 			</div>
 			<div class="modal-body">
 				<label for="folder-name"></label>
+
 				<input class='form-control' type='text' id='new_folder' name='folder-name'>
 			</div>
 			<div class="modal-footer">
