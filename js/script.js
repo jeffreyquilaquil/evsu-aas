@@ -61,6 +61,7 @@ $(document).ready(function(){
 		$(modal).attr('data-dir', $(this).data('dir') );
 		$(modal+' .modal-body > label').html('New Folder Name');
 		$(modal).modal('toggle');
+		$(modal+" input").val('');
 	});
 
 // Update Folder
@@ -92,9 +93,9 @@ $(document).ready(function(){
 
 			var type = 'update-folder';
 		}
-
-		pass_spec_data(param, type);
-		alert_message("Folder created");
+		console.log(param);
+	//	pass_spec_data(param, type);
+		alert_message("Folder management success.");
 		$("#modal-folder").modal('toggle');
 		$("#modal-folder input").val('');
 
@@ -176,6 +177,12 @@ function remove_upload(){
 	i=0;
 }
 
+// Removing rows
+function remove_row(id){
+	$(".upload-row [data-id='"+id+"']").parent().parent().remove();
+	fnameArr.splice( $.inArray() )
+}
+
 // check file if it exist using XML Http Request
 function check_file_exist(file){
 	var http = new XMLHttpRequest();
@@ -217,7 +224,7 @@ var uploader = new plupload.Uploader({
 						fnameArr.push(file.name);
 						fsizeArr.push(plupload.formatSize(file.size));
 						ftypeArr.push(file.type);
-						$('#filelist').append('<tr class="upload-row" data-id="'+i+'"><td id="'+file.id+'" class="filename">'+file.name+'<b></b></td><td>' + plupload.formatSize(file.size) + '</td><td><input type="checkbox" class="fle_Chk" id="fleChk'+i+'" data-id="'+i+'"> Yes</td><td><div><button id="name_div_button'+i+'" style="background:white;border-radius:3px;" onclick="show_user_list('+i+')" disabled>User List</button><div class="name_div" id="name_div'+i+'" ></div></div></td><td><button onclick="remove_row()" class="btn btn-warning" data-id="'+i+'"><i class="fa fa-times"></i></button></td></tr>');
+						$('#filelist').append('<tr class="upload-row" data-id="'+i+'"><td id="'+file.id+'" class="filename">'+file.name+'<b></b></td><td>' + plupload.formatSize(file.size) + '</td><td><input type="checkbox" class="fle_Chk" id="fleChk'+i+'" data-id="'+i+'"> Yes</td><td><div><button id="name_div_button'+i+'" style="background:white;border-radius:3px;" onclick="show_user_list('+i+')" disabled>User List</button><div class="name_div" id="name_div'+i+'" ></div></div></td><td><button onclick="remove_row('+i+')" class="btn btn-warning" data-id="'+i+'"><i class="fa fa-times"></i></button></td></tr>');
 						for(var ii = 0;ii<id_arr.length;ii++){
 							$("#name_div"+i).append("<input class='chk_name file_user"+i+"' type='checkbox' value='"+id_arr[ii]+"' style='margin-right:7px;margin-left:4px;'>"+name_arr[ii]+"<br>");
 						}

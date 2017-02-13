@@ -71,14 +71,14 @@
  	public function get_docu($area, $dir){
  		$uid=$_SESSION['id'];
  		if ($dir != 0) {
-		  $up_folder = "<button class='btn prevDir' style='background:#233c8a;color:white;' onclick='d_folder_up({$area})'><i class='fa fa-arrow-left'></i></button>";
-        $result = $this->sel_query("SELECT name, date, dir_name FROM tbl_folders WHERE fldr_id ='$dir'");
+        $result = $this->sel_query("SELECT name, date, dir AS 'dir_id', dir_name FROM tbl_folders WHERE fldr_id ='$dir'");
+        $up_folder = "<button class='btn prevDir' style='background:#233c8a;color:white;' onclick='d_folder_up(".$result[0]['dir_id'].")'><i class='fa fa-arrow-left'></i></button>";
       extract($result[0]);
       $cur_folder = $dir_name;
  			echo "
 				<tr>
 					<td><i class='fa fa-level-up'></i> Up $name</td>
-					<td>$date</td>
+					<td>".date('F d, Y',strtotime($date))."</td>
 					<td>Folder</td>
 					<td>$up_folder</td>
 				</tr>

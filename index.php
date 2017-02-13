@@ -3,9 +3,6 @@ include_once "db_conn.php";
 	if(!isset($_SESSION['user_id'])){
 		header('location:login.php');
 	}
-
-
-
 	include_once 'modal.php';
 
 	$user = new User();
@@ -130,7 +127,7 @@ include_once "db_conn.php";
 			<!-- Documents -->
 			<div id="doc_div">
 				<h3>Area <span class='disp_area'></span></h3>
-				<input type='hidden' id='anchor' value="0">
+				<input type='text' id='anchor' value="0">
 				<input type="text" placeholder="Search" id="search_bar" class="pull-right form-control" style="position:static;margin-top:-45px;margin-right:35%;width:20%">
 				<!-- <input type="text" placeholder="Search" class="form-control" style="width:30%;top:-11px;left:35%;position:relative;"> -->
 					<?php
