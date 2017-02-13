@@ -3,11 +3,6 @@
 	include '../db_conn.php';
 
 	$docu = new document();
-	$directory = NULL;
-	if(isset($_GET['directory'])){
-		$directory .= $_GET['directory'];
-	}
-	$directory .='/';
 
 	$uList = "";
 	if(isset($_GET['uList'])){
@@ -16,10 +11,7 @@
 
 
 
-	$restricted = "0";
-		if($_GET['restricted'] == true){
-			$restricted = 1;
-		}
-	$docu->uploadFileDetails($_GET['area'], $directory, $_GET['name'], $_GET['dir'], $_GET['type'], $_GET['size'], $uList, $restricted);
+	$restricted = ($_GET['restricted'] ? 1 : 0);
+	$docu->uploadFileDetails($_GET['area'], $_GET['name'], $_GET['dir'], $_GET['type'], $_GET['size'], $uList, $restricted);
 
 ?>

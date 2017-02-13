@@ -236,28 +236,29 @@
  		$this->db->query("UPDATE tbl_notify set status = 2 WHERE nid = '$nid'");
  	}
 
- 	public function uploadFileDetails($area, $dirName, $name, $dirId, $type, $size, $uList, $rest){
+ 	public function uploadFileDetails($area, $name, $dirId, $type, $size, $uList, $restricted){
 		$dir_name = $name;
-		extract($this->db->query("SELECT dir_name FROM tbl_folders WHERE fldr_id = {$dirId}")->fetch_assoc());
-    if(!empty($dir_name))
-			$dir_name .= $name;
+    $result = $this->sel_query("SELECT dir_name FROM tbl_folders WHERE fldr_id = '$dirId'");
+    if(isset($result[0]['dir_name']))
+			$dir_name = $result[0]['dir_name'].$name;
  		if(!is_file("../files/area ".$area."/".$dir_name)){
 	 		$author_id = $_SESSION['user_id'];
-	 		$restricted = ($rest=='true' ? 1 : 0);
 	 		$this->db->query("INSERT INTO tbl_files VALUES (NULL,'$name','$author_id', '$size', '$type', '$area', '$dirId', '$restricted', now())");
+      echo $this->db->error;
+      $file_id = $this->db->insert_id;
 		 }else{
-		 		$sql123=$this->db->query("SELECT file_id FROM tbl_FILES WHERE filename = '$name' and area = '$area' and dir = '$anchor'");
-		 		$fid = $sql123->fetch_assoc();
-		 		extract($fid);
+        $result = $this->sel_query("SELECT file_id FROM tbl_files WHERE filename = '$name' and area = '$area' and dir = '$anchor'");
+		 		$file_id = $result[0]['file_id'];
 		 		$this->db->query("UPDATE tbl_files SET upl_date = now() WHERE file_id = '$file_id'");
 		 }
 
-	 	if ($uList!="") {
+	 	if (!empty($uList)) {
  			$user_list = explode(',', $uList);
  			foreach($user_list as $value){
  				$query=$this->db->query("INSERT INTO tbl_allowed SET file_id = '$file_id', user_id = '$value'");
 			}
 	 	}
+
  	}
 
   public function fetchFileDetails(){

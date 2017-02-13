@@ -269,7 +269,7 @@ var uploader = new plupload.Uploader({
 
 			fDirectory = directory.join('/');
 			fdetailsArr.push(
-				fdetails = {'restricted':restricted,'uList':uList,'area':area,'directory':fDirectory, 'type': ftypeArr[i], 'name':fnameArr[i], 'dir':$('#anchor').val() ,'size':fsizeArr[i]}
+				fdetails = {'restricted':restricted,'uList':uList,'area':$("#d-sel").val(), 'type': ftypeArr[i], 'name':fnameArr[i], 'dir':$('#anchor').val() ,'size':fsizeArr[i]}
 			);
 
 			$.ajax({
