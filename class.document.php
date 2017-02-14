@@ -91,7 +91,8 @@
  			extract($row);
 		  $folder_settings = ($_SESSION['user_type'] ? "<button class='btn btn-info manage-folder' data-toggle='tooltip' title='Change Settings' data-id='".$fldr_id."' data-name='".$name."'><i class='fa fa-cog'></i></button>" : NULL);
 		  $goto_folder = "<button class='btn nextDir' style='background:#1867a5;color:white;' data-fid='{$fldr_id}' data-fname='{$name}'>
-		  <i class='fa fa-arrow-right'></i></button>";
+      <i class='fa fa-arrow-right'></i></button>";
+      $folder_settings = ($_SESSION['user_type'] == 1 ? $folder_settings : null);
 		  echo "<tr>
  					<td><i class='fa fa-folder'></i> $name</td>
  					<td>".date('F d, Y',strtotime($date))."</td>
