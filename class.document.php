@@ -20,6 +20,9 @@
     if($show_query)
       echo $query."</br>";
     $query = $this->db->query($query);
+    if( $this->db->error )
+      die($this->db->error);
+
     $data = [];
     while ($result = $query->fetch_assoc()) {
       array_push($data, $result);
@@ -108,11 +111,10 @@
  		while ($row=$sel_docu->fetch_assoc()) {
  			extract($row);
 
-     	 $sql = $this->db->query("SELECT n.status, a.stat from tbl_notify n LEFT JOIN tbl_allowed a ON a.file_id = n.file_id WHERE n.file_id = '$file_id' AND n.user_id = '$userid' ORDER BY nid DESC");
-     	 $res = $sql->fetch_assoc();
-			if (empty($res)) {
-				$res['status'] = 0;
-			}
+       $allowed = $this->sel_query("SELECT stat FROM tbl_allowed WHERE file_id = '$file_id' AND user_id = '$userid' ORDER BY aid DESC");
+       $notified = $this->sel_query("SELECT status FROM tbl_notify WHERE file_id = '$file_id' AND user_id = '$userid' ORDER BY nid DESC");
+       if((!empty($allowed) AND $allowed[0]['stat']) OR (!empty($notified) AND !$notified[0]['status']))
+        $rest = false;
 
  			switch ($file_type) {
  				case 'mp3': 	$i_cls='fa fa-file-audio-o';	break;
@@ -133,7 +135,7 @@
 			$download_attr = NULL;
 			$link = "#";
 
-		 	 if($res['status']){
+		 	 if(!empty($notified) && $notified[0]['status']){
          $btn_class = 'btn-warning';
          $logo = "fa-exclamation";
          $onclick_function = "";
