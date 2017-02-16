@@ -46,10 +46,9 @@
  	// Deletion of file
  	// File is deleted and all its relation
  	public function del_file($file_id){
-    $result = $this->sel_query("SELECT files.area, filename, folders.dir_name FROM tbl_files files WHERE file_id = {$file_id} LEFT JOIN tbl_folders folders ON folders.fldr_id = files.dir");
-    extract($result);
+    $result = $this->sel_query("SELECT files.area, filename, folders.dir_name FROM tbl_files files LEFT JOIN tbl_folders folders ON folders.fldr_id = files.dir WHERE files.file_id = '$file_id'");
 
-    unlink('../files/area '.$area.'/'.$dir_name.'/'.$filename);
+    unlink('../files/area '.$result[0]['area'].'/'.$result[0]['dir_name'].'/'.$result[0]['filename']);
 
     $tables = ['tbl_files', 'tbl_allowed', 'tbl_notify', 'tbl_downloads'];
     foreach($tables as $value){
@@ -159,12 +158,12 @@
 			if($_SESSION['user_type'] || $_SESSION['area'] == $area){
 				$manage_docu_btn = '
 					<a href="#" data-toggle="tooltip" title="View Document Downloads" onclick="$.fn.view_download('.$file_id.')"><button class="btn view_download" style="background:#1646c2;color:white"><i class="fa fa-eye"></i></button></a>
-          <a href="#" data-toggle="tooltip" title="Delete File" onclick="del_file('.$file_id.')"><button class="btn" style="background:#cf2929;color:white"><i class="fa fa-times"></i></button></a>
+          <a href="#" data-toggle="tooltip" title="Delete File" onclick="$.fn.del_file('.$file_id.')"><button class="btn" style="background:#cf2929;color:white"><i class="fa fa-times"></i></button></a>
 				';
 			}
 
 			echo "
-				<tr class='docu' style='border-top:1px solid rgb(221,221,221);border-bottom:1px solid rgb(221,221,221);'>
+				<tr class='docu' id='docu-row".$file_id."' style='border-top:1px solid rgb(221,221,221);border-bottom:1px solid rgb(221,221,221);'>
 					<td><i class='{$i_cls}'></i> $filename</td>
 					<td>$upl_date</td>
 					<td>$file_type</td>
@@ -443,7 +442,7 @@
         if($_SESSION['user_type'] || $_SESSION['area'] == $area){
           $docu_btn .= '
             <a href="#" data-toggle="tooltip" title="View Document Downloads" onclick="$.fn.view_download('.$value['file_id'].')"><button class="btn view_download" style="background:#1646c2;color:white"><i class="fa fa-eye"></i></button></a>
-            <a href="#" data-toggle="tooltip" title="Delete File" onclick="del_file('.$value['file_id'].')"><button class="btn" style="background:#cf2929;color:white"><i class="fa fa-times"></i></button></a>
+            <a href="#" data-toggle="tooltip" title="Delete File" onclick="$.fn.del_file('.$value['file_id'].')"><button class="btn" style="background:#cf2929;color:white"><i class="fa fa-times"></i></button></a>
           ';
         }
 

@@ -141,6 +141,12 @@ $(document).ready(function(){
 			$("#ua").removeAttr("disabled");
 		}
 	});
+
+	$.fn.del_file=function(file_id){
+		$("#docu-row"+file_id).remove();
+		pass_spec_data({'file_id':file_id}, 'delete file');
+		alert_message('File deleted');
+	}
 });
 // Mga outside functions kay maarte man ini hra
 
