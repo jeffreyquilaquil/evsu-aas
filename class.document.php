@@ -294,20 +294,17 @@
  		$curdate=date("Y-m-d");
  		$compare_date=strtotime($curdate);
  		if (!file_exists("backups/$curdate.zip") && strcmp($bckup_date, $compare_date) <= 0) {
-
  		   $this->backup();
 
 		}
  	}
 
- 	public function backup(){
+ 	public function backup($path = 'files'){
  			// This variable will hold the current date where it will be used as the name of the compressed file.
  			$curdate=date("Y-m-d");
 
 	 		// Get real path for our folder
-			$rootPath = realpath("files");
-
-
+			$rootPath = realpath($path);
 			// Initialize archive object
 			$directory = "backups/$curdate.zip";
 			$zip = new ZipArchive();
@@ -324,7 +321,6 @@
 
 			foreach ($files as $name => $file)
 			{
-
 			    // Skip directories (they would be added automatically)
 			    if (!$file->isDir())
 			    {
