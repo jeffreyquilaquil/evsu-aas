@@ -89,12 +89,14 @@
 
  		$query="SELECT * FROM tbl_folders WHERE dir = '$dir' AND area = '$area' ORDER BY LENGTH(name), name";
  		$show_folders=$this->db->query($query);
+    $folder_list = [];
  		while ($row=$show_folders->fetch_assoc()) {
  			extract($row);
 		  $folder_settings = ($_SESSION['user_type'] ? "<button class='btn btn-info manage-folder' data-toggle='tooltip' title='Change Settings' data-id='".$fldr_id."' data-name='".$name."'><i class='fa fa-cog'></i></button>" : NULL);
 		  $goto_folder = "<button class='btn nextDir' style='background:#1867a5;color:white;' data-fid='{$fldr_id}' data-fname='{$name}'>
       <i class='fa fa-arrow-right'></i></button>";
-      $folder_settings = ($_SESSION['user_type'] == 1 ? $folder_settings : null);
+      $folder_settings = ($_SESSION['user_type']==1 || $_SESSION['area']==$area ? $folder_settings : null);
+      array_push($folder_list, strtolower($name));
 		  echo "<tr>
  					<td><i class='fa fa-folder'></i> $name</td>
  					<td>".date('F d, Y',strtotime($date))."</td>
@@ -103,6 +105,8 @@
 				</tr>
  			";
  		}
+
+    echo "<input value='".implode(',',$folder_list)."' id='folder_list' hidden/>";
 
  		$sel_docu_sql="SELECT file_id, filename, upl_date, author_id, file_type, file_size, rest FROM tbl_files WHERE area='$area' and dir='$dir'";
  		$sel_docu=$this->db->query($sel_docu_sql);
@@ -279,7 +283,7 @@
       $directory = $query['dir_name'].$query['name'].'/';
     }
     $this->db->query("INSERT INTO tbl_folders VALUES (NULL, '$name', NOW(), '$dir', '$area', '$directory')");
-		mkdir("../files/area $area/$directory.$name",0777,true);
+		mkdir("../files/area ".$area."/".$directory.$name,0777,true);
  	}
 
   public function update_folder($id, $name){

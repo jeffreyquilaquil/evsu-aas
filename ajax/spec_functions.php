@@ -57,6 +57,13 @@
 		$docu->update_folder($_GET['id'], $_GET['name']);
 	}
 
+	if($_GET['type'] == 'folder-ifexist'){
+		$folder_exist = $docu->sel_query("SELECT fldr_id FROM tbl_folders WHERE name = '".$_GET['name']."' AND dir = '".$_GET['dir']."' AND area = '".$_GET['area']."'");
+		if( !empty($folder_exist) ){
+			echo "true";
+		}
+	}
+
 	if ($_GET['type']=="delete file") {
 		$docu->del_file($_GET['file_id']);
 	}

@@ -71,12 +71,13 @@ $(document).ready(function(){
 		$(modal).attr('data-id', $(this).data('id') );
 		$(modal+' .modal-body > label').html('Update Name');
 		$(modal+' .modal-body > input').val( $(this).data('name') );
+		$(modal).attr('data-name', $(this).data('name'));
 		$(modal).modal('toggle');
 	});
 
 // Save Folder
 	$('#modal-folder .btn-info').click(function(){
-
+		var folder_list = $("#folder_list").val().split(',');
 		if( $('#modal-folder #span').text() == "create" ){
 			var param = {
 				'area': $('#modal-folder').data('area'),
@@ -91,12 +92,16 @@ $(document).ready(function(){
 				'id' : $('#modal-folder').data('id'),
 				'name' : $('#modal-folder input').val()
 			}
-
+			folder_list.splice($.inArray($('#modal-folder').data('name').toLowerCase(), folder_list), 1);
 			var type = 'update-folder';
 		}
 
-		pass_spec_data(param, type);
+		if($.inArray(param['name'].toLowerCase(), folder_list) > -1){
+			alert_message("Folder already exist. Please use another folder name.");
+			return false;
+		}
 
+		pass_spec_data(param, type);
 		$.ajax({
 			url:'ajax/dload_doc.php',
 			data:'area='+$("#d-sel").val()+'&dir='+$("#anchor").val(),
