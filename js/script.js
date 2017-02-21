@@ -57,8 +57,6 @@ $(document).ready(function(){
 	$(document).on('click','.new-folder',function(){
 		var modal = "#modal-folder";
 		$(modal+' #span').text('create');
-		$(modal).attr('data-area', $(this).data('area') );
-		$(modal).attr('data-dir', $(this).data('dir') );
 		$(modal+' .modal-body > label').html('New Folder Name');
 		$(modal).modal('toggle');
 		$(modal+" input").val('');
@@ -80,8 +78,8 @@ $(document).ready(function(){
 		var folder_list = $("#folder_list").val().split(',');
 		if( $('#modal-folder #span').text() == "create" ){
 			var param = {
-				'area': $('#modal-folder').data('area'),
-				'dir': $('#modal-folder').data('dir'),
+				'area': $('#d-sel').val(),
+				'dir': $('#anchor').val(),
 				'name': $('#modal-folder input').val(),
 			};
 			var type = 'new-folder';

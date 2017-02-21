@@ -14,7 +14,7 @@
 		?>
 		<table>
  			<td>
-				<button id='n-folder' class="new-folder" data-area="<?php echo $area;?>" data-dir="<?php echo $dir; ?>">New Folder <i class='fa fa-folder-o'></i></button>
+				<button id='n-folder' class="new-folder">New Folder <i class='fa fa-folder-o'></i></button>
 			</td>
 			<td><button id='upload' onclick='upload_modal("<?php echo $area;?>")'>Upload File <i class='fa fa-upload'></i></button></td>
 		</table>
