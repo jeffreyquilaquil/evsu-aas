@@ -92,7 +92,8 @@
 			$sql=$this->db->query("SELECT * FROM tbl_areas");
 			while($row=$sql->fetch_assoc()){
 				extract($row);
-				echo "<option value='{$area_id}'>$area_name</option>";
+				$selected = ($area_id == $_SESSION['area'] && $_SESSION['user_type'] != 1  ? 'selected' : 'abcd');
+				echo "<option value='{$area_id}' {$selected}>$area_name</option>";
 			}
 
 		}

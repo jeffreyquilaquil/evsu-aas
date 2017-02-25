@@ -5,11 +5,12 @@ $(document).ready(function(){
 	if (user_type==1) {
 		area = 1;
 	}
+
 	var areaya = 1;
 
 	$("#doc_div").slideDown(function(){
-		show_area("1","#doc_div span");
-		f_ajax(areaya, "ajax/dload_doc.php","#doc_div div","0");
+		show_area(area,"#doc_div span");
+		f_ajax(area, "ajax/dload_doc.php","#doc_div div","0");
 	});
 
 	$(document).on('change','#d-sel',function(){
@@ -41,11 +42,6 @@ $(document).ready(function(){
 
 function show_area(area,disp){
 	$(disp).text(area);
-}
-
-function remove_upload(){
-	f_ajax($("#d-sel").val(), "ajax/dload_doc.php","#doc_div > div",(array_numb[array_numb.length-1]));
-	$("#filelist tr").remove();
 }
 
 function f_ajax(area,url,resp,dir){

@@ -145,10 +145,13 @@ $(document).ready(function(){
 		}
 	});
 
-	$.fn.del_file=function(file_id){
-		$("#docu-row"+file_id).remove();
-		pass_spec_data({'file_id':file_id}, 'delete file');
-		alert_message('File deleted');
+	$.fn.del_file=function(file_id)
+	{ 
+		if( window.confirm('Delete this file?') ){
+			$("#docu-row"+file_id).remove();
+			pass_spec_data({'file_id':file_id}, 'delete file');
+			alert_message('File deleted');
+		}
 	}
 });
 // Mga outside functions kay maarte man ini hra
@@ -206,7 +209,6 @@ function check_file_exist(file){
 // I'm just lazy to rewrite the code but not lazy to write this comment
 // Assasination Classroom
 
-remove_upload();
 var uploader = new plupload.Uploader({
 	runtimes : 'html5,flash,silverlight,html4',
 	browse_button : 'pickfiles',

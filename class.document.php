@@ -291,19 +291,14 @@
   }
 
  	public function check_backup(){
- 		$shtc = $this->db->query("SELECT * FROM tbl_backup ORDER BY bid DESC LIMIT 1");
- 		$res = $shtc->fetch_assoc();
-		extract($res);
- 		$bckup_date = strtotime($date."+ $interv days");
  		$curdate=date("Y-m-d");
- 		$compare_date=strtotime($curdate);
- 		if (!file_exists("backups/$curdate.zip") && strcmp($bckup_date, $compare_date) <= 0) {
+ 		if (!file_exists("backups/$curdate.zip")) {
  		   $this->backup();
 
 		}
  	}
 
- 	public function backup($path = 'files'){
+ 	public function backup($path = 'files/'){
  			// This variable will hold the current date where it will be used as the name of the compressed file.
  			$curdate=date("Y-m-d");
 
