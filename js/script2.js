@@ -4,20 +4,19 @@ var folderURL2 = '';
 $(document).ready(function(){
 	if (user_type==1) {
 		area = 1;
-		area_no = 1;
 	}
 
 	var areaya = 1;
 
 	$("#doc_div").slideDown(function(){
-		show_area(area_no,"#doc_div span");
+		show_area(area,"#doc_div span");
 		f_ajax(area, "ajax/dload_doc.php","#doc_div div","0");
 	});
 
 	$(document).on('change','#d-sel',function(){
 		areaya = $(this).val();
 		f_ajax($(this).val(),"ajax/dload_doc.php","#doc_div div","0");
-		show_area( $(this).find(':selected').data('no'),"#doc_div span");
+		show_area(areaya,"#doc_div span");
 		array_numb=["0"];
 		folderURL = "";
 	});
@@ -302,7 +301,6 @@ $("#cp_but").click(function(){
 			'pass' : $('#cp_cp').val()
 		};
 		pass_spec_data(param, 'ChangePass');
-		$("#change_pass").modal('toggle');
 		alert_message("Your password has been changed.");
 	};
 });
@@ -349,6 +347,8 @@ function allow_download(nid){
 	// archives
 	$("#btn_hisetBckup").click(function(){
 		pass_spec_data({ 'value':$("#slc_bckup").val() }, 'set_bckup');
+		alert_message('Configuration, success.');
+		$('.set_backup').modal('toggle');
 	});
 
 	// this will display the modal for setting the interval of the automatic backup
