@@ -45,7 +45,7 @@
 
 <script type="text/javascript">
 function reg_area(){
-  var data = "name="+$('input[name="area_name"]').val()+"&no="+$('input[name="area_no"]').val()+"&type=area_reg";
+  var data = "name="+$('input[name="area_name"]').val()+"&no="+$('select[name="area_no"]').val()+"&type=area_reg";
   $.ajax({
     data:data,
     url:'ajax/spec_functions.php'

@@ -4,19 +4,20 @@ var folderURL2 = '';
 $(document).ready(function(){
 	if (user_type==1) {
 		area = 1;
+		area_no = 1;
 	}
 
 	var areaya = 1;
 
 	$("#doc_div").slideDown(function(){
-		show_area(area,"#doc_div span");
+		show_area(area_no,"#doc_div span");
 		f_ajax(area, "ajax/dload_doc.php","#doc_div div","0");
 	});
 
 	$(document).on('change','#d-sel',function(){
 		areaya = $(this).val();
 		f_ajax($(this).val(),"ajax/dload_doc.php","#doc_div div","0");
-		show_area(areaya,"#doc_div span");
+		show_area( $(this).find(':selected').data('no'),"#doc_div span");
 		array_numb=["0"];
 		folderURL = "";
 	});

@@ -39,10 +39,10 @@
 
 		// For checking login
 		public function check_user($uname,$pword){
-			$check_user_sql = "SELECT * FROm tbl_users WHERE username = '$uname' AND password = '$pword'";
+			$check_user_sql = "SELECT user_id, user_type, firstname, lastname, username, user_type, area, area_no FROm tbl_users LEFT JOIN tbl_areas on area_id = area WHERE username = '$uname' AND password = '$pword'";
 
 			// Check results;
-			$query=$this->db->query($check_user_sql);
+			$query=$this->db->query($check_user_sql); echo $this->db->error;
 			$user=$query->fetch_assoc();
 			$row=$query->num_rows;
 
@@ -57,6 +57,7 @@
 				$_SESSION['user_id']=$user['user_id'];
 				$_SESSION['user_type']=$user['user_type'];
 				$_SESSION['area']=$user['area'];
+				$_SESSION['area_no']=$user['area_no'];
 				header('location:index.php');
 			}else{
 				echo "<script type='text/javascript'>alert('Wrong username or password.');</script>";
@@ -92,8 +93,8 @@
 			$sql=$this->db->query("SELECT * FROM tbl_areas");
 			while($row=$sql->fetch_assoc()){
 				extract($row);
-				$selected = ($area_id == $_SESSION['area'] && $_SESSION['user_type'] != 1  ? 'selected' : 'abcd');
-				echo "<option value='{$area_id}' {$selected}>$area_name</option>";
+				$selected = ($area_id == $_SESSION['area'] && $_SESSION['user_type'] != 1  ? 'selected' : '');
+				echo "<option value='{$area_id}' data-no='{$area_no}' {$selected}>$area_name</option>";
 			}
 
 		}
@@ -153,19 +154,18 @@
 			while ($result=$sel_area->fetch_assoc()) {
 				extract($result);
 				if(!empty($id) && $id == $area_id){
-					return ['id'=>$area_id, 'name'=>$area_name];
+					return ['id'=>$area_id, 'name'=>$area_name, 'no'=>$area_no];
 				}
-				array_push($area_array,['id'=>$area_id,'name'=>$area_name]);
+				array_push($area_array,['id'=>$area_id,'name'=>$area_name, 'no'=>$area_no]);
 			}
 
 			return $area_array;
 		}
 
 		public function register_area($name, $no){
-			$this->db->query("INSERT INTO tbl_areas SET area_name='$name', SET area_no='$no'");
-			$id = $this->db->query("SELECT area_id FROM tbl_areas ORDER BY area_id DESC");
-			$id = $id->fetch_assoc() or mysql_error();
-			mkdir("../files/area ".$id['area_id']);
+			$this->db->query("INSERT INTO tbl_areas SET area_name='$name', area_no='$no'");
+			echo( $this->db->error );
+			mkdir("../files/area ".$no, 0777);
 		}
 
 		public function update_area($id, $name){

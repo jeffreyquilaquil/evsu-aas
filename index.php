@@ -127,7 +127,7 @@ include_once "db_conn.php";
 			<!-- Documents -->
 			<div id="doc_div">
 				<h3>Area <span class='disp_area'></span></h3>
-				<input type='' id='anchor' value="0">
+				<input type='hidden' id='anchor' value="0">
 				<input type="text" placeholder="Search" id="search_bar" class="pull-right form-control" style="position:static;margin-top:-45px;margin-right:35%;width:20%">
 				<!-- <input type="text" placeholder="Search" class="form-control" style="width:30%;top:-11px;left:35%;position:relative;"> -->
 					<?php
@@ -254,6 +254,7 @@ include_once "db_conn.php";
 
 <script type="text/javascript">
 	var area = <?php echo json_encode($area);?>;
+	var area_no = <?php echo json_encode($_SESSION['area_no']); ?>;
 	var user_type = <?php echo json_encode($_SESSION['user_type']);?>;
 	var name_arr = <?php echo json_encode($names)?>;
 	var id_arr = <?php echo json_encode($ids)?>;
