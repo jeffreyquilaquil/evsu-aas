@@ -116,7 +116,7 @@
 
        $allowed = $this->sel_query("SELECT stat FROM tbl_allowed WHERE file_id = '$file_id' AND user_id = '$userid' ORDER BY aid DESC");
        $notified = $this->sel_query("SELECT status FROM tbl_notify WHERE file_id = '$file_id' AND user_id = '$userid' ORDER BY nid DESC");
-       if((!empty($allowed) AND $allowed[0]['stat']) OR (!empty($notified) AND !$notified[0]['status']))
+       if((!empty($allowed) AND $allowed[0]['stat']) OR (!empty($notified) AND !$notified[0]['status']) OR $area == $_SESSION['area'])
         $rest = false;
 
  			switch ($file_type) {
@@ -138,7 +138,7 @@
 			$download_attr = NULL;
 			$link = "#";
 
-		 	 if(!empty($notified) && $notified[0]['status']){
+			if(!empty($notified) && $notified[0]['status'] ){
          $btn_class = 'btn-warning';
          $logo = "fa-exclamation";
          $onclick_function = "";
@@ -159,7 +159,8 @@
 
 			$docu_btn = '<a id="docu_btn'.$file_id.'" href="'.$link.'" '.$download_attr.' onclick="'.$onclick_function.'" data-toggle="tooltip" title="'.$tooltip_text.'"><button class="btn '.$btn_class.'"><i class="fa '.$logo.'" aria-expanded="true"></i></button></a>';
 
-			if($_SESSION['user_type'] || $_SESSION['area'] == $area){
+			$manage_docu_btn = '';
+			if($_SESSION['user_type'] == 1 || $_SESSION['area'] == $area){
 				$manage_docu_btn = '
 					<a href="#" data-toggle="tooltip" title="View Document Downloads" onclick="$.fn.view_download('.$file_id.')"><button class="btn view_download" style="background:#1646c2;color:white"><i class="fa fa-eye"></i></button></a>
           <a href="#" data-toggle="tooltip" title="Delete File" onclick="$.fn.del_file('.$file_id.')"><button class="btn" style="background:#cf2929;color:white"><i class="fa fa-times"></i></button></a>
@@ -169,7 +170,7 @@
 			echo "
 				<tr class='docu' id='docu-row".$file_id."' style='border-top:1px solid rgb(221,221,221);border-bottom:1px solid rgb(221,221,221);'>
 					<td><i class='{$i_cls}'></i> $filename</td>
-					<td>$upl_date</td>
+					<td>$upl_date $rest </td>
 					<td>$file_type</td>
 					<td>$docu_btn $manage_docu_btn</td>
 				</tr>

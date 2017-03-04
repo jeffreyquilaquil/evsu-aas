@@ -146,7 +146,7 @@ $(document).ready(function(){
 	});
 
 	$.fn.del_file=function(file_id)
-	{ 
+	{
 		if( window.confirm('Delete this file?') ){
 			$("#docu-row"+file_id).remove();
 			pass_spec_data({'file_id':file_id}, 'delete file');
@@ -189,6 +189,9 @@ function remove_upload(){
 	ftypeArr = [];
 	fdetailsArr = [];
 	i=0;
+
+	f_ajax($("#d-sel").val(), "ajax/dload_doc.php","#doc_div > div",(array_numb[array_numb.length-1]));		
+	$("#filelist tr").remove();
 }
 
 // Removing rows

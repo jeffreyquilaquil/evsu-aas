@@ -51,12 +51,12 @@ function reg_area(){
     url:'ajax/spec_functions.php'
   }).done(function(){
     alert_message("Area has been registered");
-    
-	$.ajax({
-		url:'area_list.php',
-	}).done(function(r)){
-		$('#doc_div > div').html(r);
-	};
+
+  	$.ajax({
+  		url:'ajax/area_list.php',
+  	}).done(function(r){
+  		$('#doc_div > div').html(r);
+    });
   });
 }
 </script>
