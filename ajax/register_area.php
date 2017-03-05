@@ -1,11 +1,11 @@
 <?php
   include '../db_conn.php';
   $docu = new Document();
-  $results = $docu->sel_query("SELECT area_id FROM tbl_areas");
+  $results = $docu->sel_query("SELECT area_no FROM tbl_areas");
   $area_exist = [];
   $area_available = range(1,100);
   foreach($results as $row){
-    array_push($area_exist, $row['area_id']);
+    array_push($area_exist, $row['area_no']);
   }
   $area_available = array_diff($area_available,$area_exist);
  ?>
@@ -55,7 +55,7 @@ function reg_area(){
   	$.ajax({
   		url:'ajax/area_list.php',
   	}).done(function(r){
-  		$('#doc_div > div').html(r);
+  		$('#area_div > div').html(r);
     });
   });
 }
