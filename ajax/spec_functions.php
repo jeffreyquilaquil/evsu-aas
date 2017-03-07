@@ -22,16 +22,16 @@
 	}
 
 	if ($_GET['type']=="AD") {
-
 		$docu->allow_download($_GET['nid']);
-
-		$nid = $_GET['nid'];
-		$docu->allow_download($nid);
+		$docu->db->query("UPDATE tbl_notify SET seen = 1 WHERE nid = ".$_GET['nid']);
 	}
 
 	if ($_GET['type']=="ADC"){
-		$nid = $_GET['nid'];
-		$docu->reject_download($nid);
+		$docu->reject_download($_GET['nid']);
+	}
+
+	if ($_GET['type']=='seen'){
+		$docu->db->query('UPDATE tbl_notify SET seen = 0 WHERE nid = '.$_GET['nid']);
 	}
 
 	if ($_GET['type']=="p_upd") {

@@ -89,11 +89,28 @@
 				</button>
 			</div>
 			<div class="modal-body">
-				Allow Download for <span></span>
+				<span class="name"></span> wants to download file, <span class="file"></span>
 			</div>
 			<div class="modal-footer">
 				<button class="btn btn-default pull-right" id='btn_ADC'>Reject</button>
 				<button class="btn btn-default pull-right" id="btn_AD" style='margin-right:5px;'>Allow</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Download file from notification box -->
+<div class="modal fade" id="download_from_notif" tabindex="-1" aria-hidden="true" role="dialog" aria-labelledBy="downloadFromNotif">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label name="button"><span aria-hidden="true"></span></button>
+			</div>
+			<div class="modal-body">
+				Download file, <span></span>
+			</div>
+			<div class="modal-footer">
+				<a href="" download><button class="btn btn-default pull-right">Download</button></a>
 			</div>
 		</div>
 	</div>

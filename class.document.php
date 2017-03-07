@@ -198,41 +198,50 @@
  		echo $res['notification_count'];
  	}
 
- 	public function get_not($uid, $area){
- 		if ($_SESSION['user_type']!=1) {
- 			$query1 = $this->db->query("SELECT nid, user_id, tbl_files.file_id, filename, author_id FROM tbl_notify LEFT JOIN tbl_files ON tbl_files.file_id = tbl_notify.file_id WHERE status = 1 and tbl_files.area = '$area'");
- 			while ($result1=$query1->fetch_assoc()) {
- 				extract($result1);
- 				$query3=$this->db->query("SELECT concat(firstname,' ',lastname) as 'name' FROM tbl_users WHERE user_id = '$user_id'");
- 				$result3=$query3->fetch_assoc();
- 				extract($result3);
-				echo "
-				<tr class='n_li' data-nid='{$nid}' data-fname='{$name}'>
-					<td>$name</td>
-					<td> Wants to download </td>
-					<td>$filename</td>
-				</tr>
-				";
- 			}
- 		}else{
- 			$query1 = $this->db->query("SELECT nid, user_id, tbl_files.file_id, filename, author_id FROM tbl_notify LEFT JOIN tbl_files ON tbl_files.file_id = tbl_notify.file_id WHERE status = 1");
- 			while ($result1=$query1->fetch_assoc()) {
- 				extract($result1);
- 				$query2=$this->db->query("SELECT file_id FROM tbl_files WHERE author_id = '$uid'");
- 				$result2=$query2->fetch_assoc();
+ 	public function get_not(){
+    $condition = ($_SESSION['user_type'] != 1 ? "WHERE n.user_id = '".$_SESSION['id']."' OR f.area = ".$_SESSION['area'] : '');
+    $result = $this->sel_query("SELECT n.nid, n.status ,n.seen, n.file_id, concat(u.firstname,' ',u.lastname) as 'name', f.filename, fl.dir_name, f.area
+    FROM tbl_notify n
+    LEFT JOIN tbl_files f ON f.file_id = n.file_id
+    LEFT JOIN tbl_folders fl ON fl.fldr_id = f.dir
+    LEFT JOIN tbl_users u ON u.user_id = n.user_id
+    ".$condition);
+    echo $this->db->error;
+    foreach ($result as $value) {
+      extract($value);
+      $data = null;
+      $data_admin = 1;
+      if($status == 1){
+        $text = 'Wants to download the file, ';
+        if($area != $_SESSION['area'] AND $_SESSION['user_type'] != 1){
+          $text = 'File download request being reviewed';
+          $data_admin = 0;
+        }
+      }
+      if($status == 0){
+        $text = 'Request granted to download the file, ';
+        if($area == $_SESSION['area'] OR $_SESSION['user_type'] == 1){
+          $text = 'Request to download file, granted.';
+        }
+        $data = '../files/area '.$area.'/'.$dir_name.$filename;
+      }
+      if($status == 2){
+        $text = 'Request denied to download the file, ';
+        if($area == $_SESSION['area'] OR $_SESSION['user_type'] == 1){
+          $text = 'Request to download file, Denied.';
+        }
+      }
 
- 				$query3=$this->db->query("SELECT concat(firstname,' ',lastname) as 'name' FROM tbl_users WHERE user_id = '$user_id'");
- 				$result3=$query3->fetch_assoc();
- 				extract($result3);
-				echo "
-				<tr class='n_li' data-nid='{$nid}' data-fname='{$name}'>
-					<td>$name</td>
-					<td> Wants to download </td>
-					<td>$filename</td>
-				</tr>
-				";
- 			}
- 		}
+      $bg = ($seen == 1 ? "style='background:skyblue'" : '');
+
+      echo "
+        <tr class='n_li' data-nid='{$nid}' data-status='{$status}' data-seen='{$seen}' data-admin='{$data_admin}' {$bg}>
+          <td class='name'>{$name}</td>
+          <td>{$text} <input value='{$data}' hidden></td>
+          <td class='file'>{$filename}</td>
+        </tr>
+      ";
+    }
  	}
 
  	public function allow_download($nid){

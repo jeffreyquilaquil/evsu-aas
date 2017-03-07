@@ -56,7 +56,7 @@ include_once "db_conn.php";
 				<div class="pull-right">
 					<ul>
 						<li id='notifications' style='margin-right:10px;'>
-							<button id='not_but' ><i class='fa fa-bell'><span style="color:red;font-weight:bold;right:-5px;top:-5px;"><?php $docu->notification_count($_SESSION['user_id'], $_SESSION['area']);?></span></i></button>
+							<button id='not_but' ><i class='fa fa-bell'><span style="color:red;font-weight:bold;right:-5px;top:-5px;">*</span></i></button>
 							<div id='not_div'>
 								<img src="load.gif" class='load_gif' style='top:0;'>
 							</div>

@@ -4,8 +4,8 @@ var folderURL2 = '';
 $(document).ready(function(){
 	if (user_type==1) {
 		area = 1;
+		area_no = 1;
 	}
-
 	var areaya = 1;
 
 	$("#doc_div").slideDown(function(){
@@ -258,6 +258,8 @@ $(document).mouseup(function (e){
 			url:"ajax/get_not.php"
 		}).done(function(r){
 			$("#not_div").html(r);
+			let notification_count = $("#not_div tr[data-seen='1']").length
+			$('#not_but span').text( notification_count );
 		});
     }else if(!$("#not_div").is(e.target) && $("#not_div").has(e.target).length === 0){
     	$("#not_div").slideUp();
@@ -318,22 +320,11 @@ $("#p-upd").click(function(){
 	};
 });
 
-	//For the notifications
-$(document).on('click','.n_li',function(){
-	$("#allow_download .modal-body > span").text($(this).data('fname'));
-	//$("#btn_ADC").attr('onclick','reject_download("+$(this).data('nid')+")');
-	$("#btn_ADC").attr('onclick',"reject_download("+$(this).data('nid')+")");
-	$("#btn_AD").attr("onclick","allow_download("+$(this).data('nid')+")");
-	$("#allow_download").modal('toggle');
-});
-
 function allow_download(nid){
 	pass_spec_data({'nid':nid}, 'AD');
 	alert_message("The document available for download.");
 	$("#allow_download").modal('toggle');
 
-		// Fetch the count number of notifications after allowing or dis allowing user.
-		$('#notifications p').html( pass_spec_data('','notification_count') );
 }
 
 	function reject_download(nid){
@@ -341,8 +332,6 @@ function allow_download(nid){
 		alert_message("The user request, rejected.");
 		$("#allow_download").modal('toggle');
 
-		// Fetch the count number of notifications after allowing or dis allowing user.
-		$('#notifications p').html( pass_spec_data('','notification_count') );
 	}
 
 	// archives
