@@ -174,12 +174,12 @@ function pass_spec_data(param ,type){
 		return output;
 }
 
-function alert_message(message){
+function alert_message(message, time = 5){
 	$("#message_alert p").text(message);
 	$("#message_alert").modal('toggle');
 	setTimeout(function(){
 		$("#message_alert").modal('hide');
-	}, 2000);
+	}, (time * 1000));
 }
 
 // Removing and resetting the list of selected file list
@@ -190,7 +190,7 @@ function remove_upload(){
 	fdetailsArr = [];
 	i=0;
 
-	f_ajax($("#d-sel").val(), "ajax/dload_doc.php","#doc_div > div",(array_numb[array_numb.length-1]));		
+	f_ajax($("#d-sel").val(), "ajax/dload_doc.php","#doc_div > div",(array_numb[array_numb.length-1]));
 	$("#filelist tr").remove();
 }
 
@@ -295,6 +295,8 @@ var uploader = new plupload.Uploader({
 
 		FileUploaded: function(up, file){
 			alert_message ('Upload is Done');
+			remove_upload();
+			$('#file-upload').modal('toggle');
 		},
 
 		Error: function(up, err){

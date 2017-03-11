@@ -23,11 +23,9 @@
 			pass_spec_data({'nid':$(this).data('nid')},'seen');
 			switch ($(this).data('status')) {
 				case 0:
-					$('#download_from_notif').modal('toggle');
 					$('#download_from_notif .modal-body span').text( $(this).children('.file').text() )
 					$('#download_from_notif .modal-footer a').attr('href', $(this).find('input').val() )
-					alert_message('Download Successful')
-					$('#download_from_notif').modal('toggle');
+					$('#download_from_notif').modal('show');
 					break;
 				case 1:
 					if( $(this).data('admin')==1 ){
@@ -35,7 +33,7 @@
 						$("#allow_download .modal-body > span.name").text($(this).children('.name').text());
 						$("#btn_ADC").attr('onclick',"reject_download("+$(this).data('nid')+")");
 						$("#btn_AD").attr("onclick","allow_download("+$(this).data('nid')+")");
-						$("#allow_download").modal('toggle');
+						$("#allow_download").modal('show');
 					}else{
 						alert_message('File being reviewed');
 					}
@@ -44,11 +42,11 @@
 					if( $(this).data('admin')==1 ){
 						alert_message($(this).children('.name').text()+' request to download the file '+$(this).children('.file').text()+' was denied.');
 					}else{
-						alert_message('Your request to download the file '+$(this).children('.file').text()+' was denied.');
+						alert_message('Your request to download the file '+$(this).children('.file').text()+' was denied.', 1);
 					}
 					break;
-
-
+					let notification_count = $("#not_div tr[data-seen='1']").length
+					$('#not_but span').text( notification_count );s
 			}
 		});
 

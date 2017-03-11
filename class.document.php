@@ -212,6 +212,7 @@
       $data = null;
       $data_admin = 1;
       if($status == 1){
+        $color = 'yellow';
         $text = 'Wants to download the file, ';
         if($area != $_SESSION['area'] AND $_SESSION['user_type'] != 1){
           $text = 'File download request being reviewed';
@@ -219,13 +220,15 @@
         }
       }
       if($status == 0){
+        $color = 'blue';
         $text = 'Request granted to download the file, ';
         if($area == $_SESSION['area'] OR $_SESSION['user_type'] == 1){
           $text = 'Request to download file, granted.';
         }
-        $data = '../files/area '.$area.'/'.$dir_name.$filename;
+        $data = 'files/area '.$area.'/'.$dir_name.$filename;
       }
       if($status == 2){
+        $color = 'red';
         $text = 'Request denied to download the file, ';
         if($area == $_SESSION['area'] OR $_SESSION['user_type'] == 1){
           $text = 'Request to download file, Denied.';
@@ -236,6 +239,7 @@
 
       echo "
         <tr class='n_li' data-nid='{$nid}' data-status='{$status}' data-seen='{$seen}' data-admin='{$data_admin}' {$bg}>
+          <td><i class='fa fa-circle' style='color:".$color."'></i> </td>
           <td class='name'>{$name}</td>
           <td>{$text} <input value='{$data}' hidden></td>
           <td class='file'>{$filename}</td>
