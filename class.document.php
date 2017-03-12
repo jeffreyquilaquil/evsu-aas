@@ -198,7 +198,7 @@
  		echo $res['notification_count'];
  	}
 
- 	public function get_not(){
+ 	public function get_not($count = false){
     $condition = ($_SESSION['user_type'] != 1 ? "WHERE n.user_id = '".$_SESSION['id']."' OR f.area = ".$_SESSION['area'] : '');
     $result = $this->sel_query("SELECT n.nid, n.status ,n.seen, n.file_id, concat(u.firstname,' ',u.lastname) as 'name', f.filename, fl.dir_name, f.area
     FROM tbl_notify n
@@ -206,6 +206,8 @@
     LEFT JOIN tbl_folders fl ON fl.fldr_id = f.dir
     LEFT JOIN tbl_users u ON u.user_id = n.user_id
     ".$condition);
+    if($count)
+      return count($result);
     echo $this->db->error;
     foreach ($result as $value) {
       extract($value);
