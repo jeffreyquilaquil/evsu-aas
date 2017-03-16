@@ -176,7 +176,7 @@ function pass_spec_data(param ,type){
 
 function alert_message(message, time = 5){
 	$("#message_alert p").text(message);
-	$("#message_alert").modal('toggle');
+	$("#message_alert").modal('show');
 	setTimeout(function(){
 		$("#message_alert").modal('hide');
 	}, (time * 1000));

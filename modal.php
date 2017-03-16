@@ -110,7 +110,7 @@
 				Download file, <span></span>
 			</div>
 			<div class="modal-footer">
-				<a href="" download><button class="btn btn-default pull-right">Download</button></a>
+				<a href="" download onclick="$('#download_from_notif').modal('hide')"><button class="btn btn-default pull-right">Download</button></a>
 			</div>
 		</div>
 	</div>
@@ -165,7 +165,7 @@
 				</select>
 			</div>
 			<div class='modal-footer'>
-				<button class='btn btn-default pull-right' id='btn_hisetBckup'>Done</button>
+				<button class='btn btn-default pull-right' id='btn_hisetBckup' data-dismiss='modal' onclick="alert_message('Configuration Success.')">Done</button>
 			</div>
 		</div>
 	</div>

@@ -14,11 +14,15 @@
 </style>
 <table style='width:100%' class='tbl_not'>
 	<?php
-		$docu->get_not($_SESSION['user_id'],$_SESSION['area']);
+		echo $docu->get_not();
 	?>
 </table>
 <script type="text/javascript">
+		var clicked = false;
 		$(document).on('click','.n_li',function(){
+			if(clicked == true)
+				return false;
+
 			$(this).removeAttr('style');
 			pass_spec_data({'nid':$(this).data('nid')},'seen');
 			switch ($(this).data('status')) {
@@ -48,6 +52,11 @@
 					let notification_count = $("#not_div tr[data-seen='1']").length
 					$('#not_but span').text( notification_count );s
 			}
+			clicked = true;
+			setTimeout(function(){
+				clicked = false;
+			}, 200);
+			console.log('string');
 		});
 
 </script>

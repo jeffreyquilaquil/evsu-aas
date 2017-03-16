@@ -206,8 +206,9 @@
     LEFT JOIN tbl_folders fl ON fl.fldr_id = f.dir
     LEFT JOIN tbl_users u ON u.user_id = n.user_id
     ".$condition);
-    if($count)
-      return count($result);
+    $rows = '';
+    $seen_count = 0;
+
     echo $this->db->error;
     foreach ($result as $value) {
       extract($value);
@@ -237,9 +238,14 @@
         }
       }
 
-      $bg = ($seen == 1 ? "style='background:skyblue'" : '');
+      if($seen == 1){
+        $bg = "style='background:skyblue'";
+        $seen_count ++;
+      }else{
+        $bg = '';
+      }
 
-      echo "
+      $rows .= "
         <tr class='n_li' data-nid='{$nid}' data-status='{$status}' data-seen='{$seen}' data-admin='{$data_admin}' {$bg}>
           <td><i class='fa fa-circle' style='color:".$color."'></i> </td>
           <td class='name'>{$name}</td>
@@ -248,6 +254,10 @@
         </tr>
       ";
     }
+    if($count)
+      return $seen_count;
+
+    return $rows;
  	}
 
  	public function allow_download($nid){
